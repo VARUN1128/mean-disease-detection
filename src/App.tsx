@@ -118,10 +118,10 @@ function App() {
       <BrowserRouter>
         <div className="flex flex-col min-h-screen relative bg-white">
           <Navbar />
-          <main className="flex-1 pb-16 md:pb-0">
+          <main className="flex-1 pb-16 md:pb-[400px]">
             <AppRoutes />
           </main>
-          <Footer className="hidden md:block" />
+          <Footer className="fixed bottom-0 left-0 right-0 z-40 hidden md:block bg-white border-t shadow-elegant" style={{ position: 'fixed', transform: 'translateZ(0)' }} />
           <BottomNav />
         </div>
       </BrowserRouter>

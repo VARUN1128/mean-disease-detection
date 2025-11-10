@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 
-export default function Footer({ className }: { className?: string }) {
+export default function Footer({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <footer className={`border-t bg-background/95 backdrop-blur-sm ${className || ''}`}>
-      <div className="container mx-auto px-4 py-8">
+    <footer className={`border-t bg-background backdrop-blur-sm shadow-elegant ${className || ''}`} style={style}>
+      <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4">🌊 AquaVeritas</h3>

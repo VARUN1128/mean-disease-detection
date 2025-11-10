@@ -87,11 +87,11 @@ export default function Home() {
           className="mb-4"
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 leading-tight">
-            <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent font-extrabold">
+            <span className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-700 bg-clip-text text-transparent font-extrabold">
               Detect Fish Diseases
             </span>
             <br />
-            <span className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-clip-text text-transparent font-bold">in Seconds, Not Days</span>
+            <span className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 bg-clip-text text-transparent font-bold">in Seconds, Not Days</span>
           </h1>
           <p className="text-base md:text-lg text-gray-700 leading-normal max-w-2xl font-medium">
             World's first <span className="font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">real-time AI-powered</span> fish disease detection. Upload a photo and get instant diagnosis with treatment recommendations.
@@ -260,46 +260,48 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Medicine & Supplements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">Medicine and supplements</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {medicineCategories.map((category, index) => {
-              const Icon = category.icon
-              return (
-                <Link key={index} to="/medicines">
-                  <motion.div
-                    whileHover={{ scale: 1.05, y: -4 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  >
-                    <Card className="text-center card-hover cursor-pointer h-full group">
-                      <CardContent className="pt-4 pb-3 px-2">
-                        <div className={`w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform ${
-                          category.color === 'text-blue-600' ? 'bg-blue-50' :
-                          category.color === 'text-red-600' ? 'bg-red-50' :
-                          category.color === 'text-green-600' ? 'bg-green-50' :
-                          category.color === 'text-purple-600' ? 'bg-purple-50' :
-                          category.color === 'text-orange-600' ? 'bg-orange-50' :
-                          'bg-teal-50'
-                        }`}>
-                          <Icon className={`h-6 w-6 ${category.color}`} />
-                        </div>
-                        <p className="text-[10px] sm:text-xs font-semibold leading-tight break-words text-foreground">
-                          {category.label}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </Link>
-              )
-            })}
-          </div>
-        </motion.div>
+            {/* Medicine & Supplements */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">Medicine and supplements</h2>
+              <div className="grid grid-cols-3 gap-4">
+                {medicineCategories.map((category, index) => {
+                  const Icon = category.icon
+                  return (
+                    <Link key={index} to="/medicines">
+                      <motion.div
+                        whileHover={{ scale: 1.05, y: -4 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      >
+                        <Card className="text-center card-hover cursor-pointer h-full group">
+                          <CardContent className="pt-4 pb-3 px-2 flex flex-col h-full">
+                            <div className={`w-12 h-12 mx-auto mb-3 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0 ${
+                              category.color === 'text-blue-600' ? 'bg-blue-50' :
+                              category.color === 'text-red-600' ? 'bg-red-50' :
+                              category.color === 'text-green-600' ? 'bg-green-50' :
+                              category.color === 'text-purple-600' ? 'bg-purple-50' :
+                              category.color === 'text-orange-600' ? 'bg-orange-50' :
+                              'bg-teal-50'
+                            }`}>
+                              <Icon className={`h-6 w-6 ${category.color}`} />
+                            </div>
+                            <div className="h-10 flex items-center justify-center flex-grow">
+                              <p className="text-[10px] sm:text-xs font-semibold leading-tight break-words text-foreground text-center">
+                                {category.label}
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </motion.div>
       </section>
     </div>
   )

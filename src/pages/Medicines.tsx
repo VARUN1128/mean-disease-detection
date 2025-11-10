@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
   Pill,
@@ -22,12 +22,12 @@ const categoryIcons = {
 }
 
 const categoryColors = {
-  Medicine: 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300',
-  Drugs: 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300',
-  Probiotics: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300',
-  Disinfectant: 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300',
-  Immunostimulants: 'bg-orange-100 text-orange-600 dark:bg-orange-900 dark:text-orange-300',
-  'Feed Additives': 'bg-teal-100 text-teal-600 dark:bg-teal-900 dark:text-teal-300',
+  Medicine: 'bg-blue-100 text-blue-600',
+  Drugs: 'bg-red-100 text-red-600',
+  Probiotics: 'bg-green-100 text-green-600',
+  Disinfectant: 'bg-purple-100 text-purple-600',
+  Immunostimulants: 'bg-orange-100 text-orange-600',
+  'Feed Additives': 'bg-teal-100 text-teal-600',
 }
 
 type Category = Medicine['category']
@@ -44,9 +44,10 @@ export default function Medicines() {
     'Feed Additives',
   ]
 
-  const filteredMedicines = selectedCategory
-    ? medicines.filter((m) => m.category === selectedCategory)
-    : medicines
+  const filteredMedicines = useMemo(
+    () => (selectedCategory ? medicines.filter((m) => m.category === selectedCategory) : medicines),
+    [selectedCategory]
+  )
 
   if (selectedCategory) {
     return (
@@ -78,7 +79,7 @@ export default function Medicines() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Card className="h-full hover:shadow-lg transition-shadow">
+                  <Card className="h-full card-hover">
                     <CardHeader>
                       <div className="flex items-center space-x-3 mb-2">
                         <div
@@ -149,7 +150,7 @@ export default function Medicines() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Card
-                  className="cursor-pointer hover:shadow-lg transition-shadow h-full"
+                  className="cursor-pointer card-hover h-full"
                   onClick={() => setSelectedCategory(category)}
                 >
                   <CardContent className="pt-6">

@@ -15,14 +15,14 @@ import Button from '../components/ui/Button'
 import { fishDiseases, Disease } from '../data/fishDiseases'
 import { shrimpDiseases } from '../data/shrimpDiseases'
 
-function DiseaseCard({ disease, onViewDetails }: { disease: Disease; onViewDetails: () => void }) {
+const DiseaseCard = ({ disease, onViewDetails }: { disease: Disease; onViewDetails: () => void }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
-      <Card className="hover:shadow-lg transition-shadow">
+      <Card className="card-hover group">
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -32,12 +32,16 @@ function DiseaseCard({ disease, onViewDetails }: { disease: Disease; onViewDetai
           </div>
         </CardHeader>
         <CardContent>
-          <img
-            src={disease.image}
-            alt={disease.name}
-            className="w-full h-48 object-cover rounded-lg mb-4"
-          />
-          <Button onClick={onViewDetails} variant="outline" className="w-full">
+          <div className="relative overflow-hidden rounded-lg mb-4 group-hover:scale-[1.02] transition-transform duration-300">
+            <img
+              src={disease.image}
+              alt={disease.name}
+              className="w-full h-48 object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <Button onClick={onViewDetails} variant="outline" className="w-full group-hover:border-primary-400">
             <Eye className="mr-2 h-4 w-4" />
             View Details
           </Button>

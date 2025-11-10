@@ -22,9 +22,9 @@ export default function ResultCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      <Card className="border-2 border-primary-200 dark:border-primary-800">
+      <Card className="border-2 border-primary-200 shadow-elegant-lg bg-gradient-to-br from-card to-primary-50/30">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-2xl">{diseaseName}</CardTitle>

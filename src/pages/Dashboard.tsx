@@ -70,14 +70,14 @@ export default function Dashboard() {
                 {detections.length} detection{detections.length !== 1 ? 's' : ''} found
               </p>
             </div>
-            {detections.map((detection) => (
+            {detections.map((detection, index) => (
               <motion.div
                 key={detection.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
               >
-                <Card>
+                <Card className="card-hover">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -91,11 +91,12 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-6">
-                      <div>
+                      <div className="relative overflow-hidden rounded-lg group">
                         <img
                           src={detection.image}
                           alt="Detection"
-                          className="w-full h-48 object-cover rounded-lg"
+                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
                         />
                       </div>
                       <div className="space-y-4">

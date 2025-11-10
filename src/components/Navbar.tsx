@@ -1,21 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Moon, Sun, Menu, X, Brain } from 'lucide-react'
-import { useThemeStore } from '../store/themeStore'
-import { useState, useEffect } from 'react'
+import { Menu, X, Brain } from 'lucide-react'
+import { useState } from 'react'
 import Button from './ui/Button'
 
 export default function Navbar() {
-  const { isDark, toggleTheme } = useThemeStore()
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDark])
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -26,7 +16,7 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b glass shadow-elegant">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Mobile: Hamburger Menu + Logo */}
@@ -66,26 +56,6 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-          </div>
-
-          {/* Mobile: Theme Toggle */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
           </div>
         </div>
 
@@ -99,7 +69,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={`block px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                   location.pathname === link.path
-                    ? 'bg-primary-100 text-primary-600 dark:bg-primary-900'
+                    ? 'bg-primary-100 text-primary-600'
                     : 'text-muted-foreground hover:bg-accent'
                 }`}
               >

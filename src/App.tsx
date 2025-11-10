@@ -1,131 +1,131 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import BottomNav from './components/BottomNav'
-import Home from './pages/Home'
-import Detect from './pages/Detect'
-import Manual from './pages/Manual'
-import Medicines from './pages/Medicines'
-import Dashboard from './pages/Dashboard'
-import Search from './pages/Search'
-import Market from './pages/Market'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { SkeletonCard } from './components/Skeleton'
+
+// Lazy load pages for code splitting
+const Home = lazy(() => import('./pages/Home'))
+const Detect = lazy(() => import('./pages/Detect'))
+const Manual = lazy(() => import('./pages/Manual'))
+const Medicines = lazy(() => import('./pages/Medicines'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Search = lazy(() => import('./pages/Search'))
+const Market = lazy(() => import('./pages/Market'))
+
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+  
+  return (
+    <motion.div
+      key={location.pathname}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 function AppRoutes() {
   const location = useLocation()
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Home />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/detect"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Detect />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/manual"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Manual />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/medicines"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Medicines />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Dashboard />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Search />
-            </motion.div>
-          }
-        />
-        <Route
-          path="/market"
-          element={
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Market />
-            </motion.div>
-          }
-        />
-      </Routes>
+      <Suspense
+        fallback={
+          <div className="container mx-auto px-4 py-8">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[1, 2, 3].map((i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
+          </div>
+        }
+      >
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <PageWrapper>
+                <Home />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/detect"
+            element={
+              <PageWrapper>
+                <Detect />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/manual"
+            element={
+              <PageWrapper>
+                <Manual />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/medicines"
+            element={
+              <PageWrapper>
+                <Medicines />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PageWrapper>
+                <Dashboard />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <PageWrapper>
+                <Search />
+              </PageWrapper>
+            }
+          />
+          <Route
+            path="/market"
+            element={
+              <PageWrapper>
+                <Market />
+              </PageWrapper>
+            }
+          />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   )
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1">
-          <AppRoutes />
-        </main>
-        <Footer className="hidden md:block" />
-        <BottomNav />
-      </div>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen relative bg-white">
+          <Navbar />
+          <main className="flex-1 pb-16 md:pb-0">
+            <AppRoutes />
+          </main>
+          <Footer className="hidden md:block" />
+          <BottomNav />
+        </div>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

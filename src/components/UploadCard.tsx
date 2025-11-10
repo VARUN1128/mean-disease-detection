@@ -41,28 +41,42 @@ export default function UploadCard({ onFileSelect, preview, onRemove }: UploadCa
 
   if (preview) {
     return (
-      <Card className="relative overflow-hidden">
-        <CardContent className="p-0">
-          <div className="relative">
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-full h-auto max-h-96 object-contain bg-muted"
-            />
-            {onRemove && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="absolute top-2 right-2 bg-background/80 hover:bg-background"
-                onClick={onRemove}
-                aria-label="Remove image"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Card className="relative overflow-hidden shadow-elegant-lg">
+          <CardContent className="p-0">
+            <div className="relative group">
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-full h-auto max-h-96 object-contain bg-muted rounded-lg"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
+              {onRemove && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute top-2 right-2 bg-background/90 backdrop-blur-sm hover:bg-background shadow-elegant"
+                    onClick={onRemove}
+                    aria-label="Remove image"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </motion.div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     )
   }
 
@@ -71,18 +85,25 @@ export default function UploadCard({ onFileSelect, preview, onRemove }: UploadCa
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
-      className={`border-2 border-dashed transition-colors ${
-        isDragging ? 'border-primary-600 bg-primary-50 dark:bg-primary-950' : 'border-muted'
+      className={`border-2 border-dashed transition-all duration-300 ${
+        isDragging
+          ? 'border-primary-600 bg-gradient-to-br from-primary-50 to-primary-100/50 shadow-elegant-lg scale-[1.02]'
+          : 'border-muted hover:border-primary-300 hover:bg-muted/50'
       }`}
     >
       <CardContent className="flex flex-col items-center justify-center p-12 text-center">
         <motion.div
           initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.2 }}
+          animate={{ scale: isDragging ? 1.1 : 1 }}
+          transition={{ duration: 0.2, type: 'spring' }}
         >
           {isDragging ? (
-            <Upload className="mx-auto h-16 w-16 text-primary-600 mb-4" />
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 0.5, repeat: Infinity }}
+            >
+              <Upload className="mx-auto h-16 w-16 text-primary-600 mb-4" />
+            </motion.div>
           ) : (
             <ImageIcon className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
           )}

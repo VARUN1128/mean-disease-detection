@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import UploadCard from '../components/UploadCard'
 import Loader from '../components/Loader'
@@ -7,7 +7,7 @@ import { useDetectionStore, DetectionResult } from '../store/detectionStore'
 import { fishDiseases } from '../data/fishDiseases'
 import { shrimpDiseases } from '../data/shrimpDiseases'
 
-// Mock AI detection function
+// Mock AI detection function - optimized
 const simulateDetection = (imageFile: File): Promise<DetectionResult> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -39,9 +39,29 @@ export default function Detect() {
   const [preview, setPreview] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [result, setResult] = useState<DetectionResult | null>(null)
-  const { addDetection } = useDetectionStore()
+  const { addDetection, pendingFile, setPendingFile } = useDetectionStore()
 
-  const handleFileSelect = (file: File) => {
+  // Handle file passed from Home page via store
+  useEffect(() => {
+    if (pendingFile) {
+      // Convert base64 back to File object
+      const byteString = atob(pendingFile.data.split(',')[1])
+      const mimeString = pendingFile.data.split(',')[0].split(':')[1].split(';')[0]
+      const ab = new ArrayBuffer(byteString.length)
+      const ia = new Uint8Array(ab)
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+      }
+      const blob = new Blob([ab], { type: mimeString })
+      const file = new File([blob], pendingFile.name, { type: pendingFile.type })
+      
+      handleFileSelect(file)
+      setPendingFile(null) // Clear pending file
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingFile])
+
+  const handleFileSelect = useCallback((file: File) => {
     setSelectedFile(file)
     setResult(null)
     const reader = new FileReader()
@@ -49,15 +69,15 @@ export default function Detect() {
       setPreview(e.target?.result as string)
     }
     reader.readAsDataURL(file)
-  }
+  }, [])
 
-  const handleRemove = () => {
+  const handleRemove = useCallback(() => {
     setSelectedFile(null)
     setPreview(null)
     setResult(null)
-  }
+  }, [])
 
-  const handleDetect = async () => {
+  const handleDetect = useCallback(async () => {
     if (!selectedFile) return
 
     setIsProcessing(true)
@@ -70,7 +90,7 @@ export default function Detect() {
     } finally {
       setIsProcessing(false)
     }
-  }
+  }, [selectedFile, addDetection])
 
   return (
     <div className="container mx-auto px-4 py-8 pb-24 md:pb-8 min-h-screen">

@@ -18,23 +18,102 @@
   --color-ring: oklch(60% 0.2 250);
 }
 
-.dark {
-  --color-background: oklch(20% 0.02 250);
-  --color-foreground: oklch(98% 0 0);
-  --color-card: oklch(20% 0.02 250);
-  --color-card-foreground: oklch(98% 0 0);
-  --color-primary: oklch(70% 0.2 250);
-  --color-primary-foreground: oklch(20% 0.02 250);
-  --color-secondary: oklch(30% 0.02 250);
-  --color-secondary-foreground: oklch(98% 0 0);
-  --color-muted: oklch(30% 0.02 250);
-  --color-muted-foreground: oklch(65% 0.02 250);
-  --color-accent: oklch(30% 0.02 250);
-  --color-accent-foreground: oklch(98% 0 0);
-  --color-border: oklch(30% 0.02 250);
-  --color-input: oklch(30% 0.02 250);
-  --color-ring: oklch(70% 0.2 250);
+
+/* World-Class Design Enhancements */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+/* Ensure text is never blurred */
+h1, h2, h3, h4, h5, h6, p, span, div, button, input, label {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-feature-settings: "kern" 1;
+}
+
+/* Professional Shadows */
+.shadow-elegant {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-elegant-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+/* Smooth Transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(to right, var(--color-primary), var(--color-ring));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Professional Card Hover */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Loading Skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
 
 .bg-background { background-color: var(--color-background); }
 .text-foreground { color: var(--color-foreground); }
@@ -53,7 +132,24 @@
   border-color: var(--color-border);
 }
 
+html {
+  overflow-x: hidden;
+  position: relative;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Ensure fixed bottom nav doesn't scroll */
+nav[class*="fixed bottom-0"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: translateZ(0);
+  will-change: transform;
 }

@@ -50,26 +50,26 @@ export default function Medicines() {
   )
 
   if (selectedCategory) {
-    return (
-      <div className="container mx-auto px-4 py-8 pb-24 md:pb-8 min-h-screen">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <button
-            onClick={() => setSelectedCategory(null)}
-            className="mb-6 text-primary-600 hover:text-primary-700 flex items-center"
+      return (
+        <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 xs:py-6 sm:py-8 pb-24 md:pb-8 min-h-screen">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
-            Back to Categories
-          </button>
-          <h1 className="text-4xl font-bold mb-4">{selectedCategory}</h1>
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="mb-4 xs:mb-6 text-primary-600 hover:text-primary-700 flex items-center min-h-[44px] text-sm xs:text-base"
+            >
+              <ChevronRight className="h-4 w-4 mr-1 rotate-180" />
+              Back to Categories
+            </button>
+            <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl font-bold mb-3 xs:mb-4">{selectedCategory}</h1>
           <p className="text-muted-foreground mb-8">
             {filteredMedicines.length} items found
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
             {filteredMedicines.map((medicine) => {
               const Icon = categoryIcons[medicine.category]
               return (
@@ -89,7 +89,7 @@ export default function Medicines() {
                         </div>
                         <CardTitle className="text-lg">{medicine.name}</CardTitle>
                       </div>
-                      <CardDescription>{medicine.description}</CardDescription>
+                          <CardDescription className="text-base sm:text-lg">{medicine.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div>

@@ -27,7 +27,7 @@ const DiseaseCard = ({ disease, onViewDetails }: { disease: Disease; onViewDetai
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <CardTitle className="text-xl mb-2">{disease.name}</CardTitle>
-              <CardDescription className="line-clamp-2">{disease.description}</CardDescription>
+              <CardDescription className="line-clamp-2 text-base sm:text-lg">{disease.description}</CardDescription>
             </div>
           </div>
         </CardHeader>
@@ -140,13 +140,13 @@ export default function Manual() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24 md:pb-8 min-h-screen">
+    <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 xs:py-6 sm:py-8 pb-24 md:pb-8 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl font-bold text-center mb-4">Disease Manual</h1>
+        <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl font-bold text-center mb-3 xs:mb-4">Disease Manual</h1>
         <p className="text-center text-muted-foreground mb-8">
           Comprehensive guide to fish and shrimp diseases
         </p>
@@ -162,7 +162,7 @@ export default function Manual() {
           </TabsList>
 
           <TabsContent value="fish">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6">
               {fishDiseases.map((disease) => (
                 <DiseaseCard
                   key={disease.id}

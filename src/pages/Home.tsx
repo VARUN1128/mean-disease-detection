@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-20 md:pb-0">
       {/* Hero Section - Enhanced & Catchy */}
-      <section className="container mx-auto px-4 pt-4 pb-6">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pt-3 sm:pt-4 md:pt-6 pb-4 sm:pb-6">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -86,14 +86,14 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-4"
         >
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 leading-tight">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-2 sm:mb-3 leading-tight">
             <span className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-700 bg-clip-text text-transparent font-extrabold">
               Detect Fish Diseases
             </span>
             <br />
             <span className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800 bg-clip-text text-transparent font-bold">in Seconds, Not Days</span>
           </h1>
-          <p className="text-base md:text-lg text-gray-700 leading-normal max-w-2xl font-medium">
+          <p className="text-base xs:text-lg sm:text-lg md:text-xl lg:text-2xl text-gray-700 leading-relaxed max-w-2xl font-medium">
             World's first <span className="font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">real-time AI-powered</span> fish disease detection. Upload a photo and get instant diagnosis with treatment recommendations.
           </p>
         </motion.div>
@@ -103,22 +103,22 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-3 gap-3 mb-6"
+          className="grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 mb-4 sm:mb-6"
         >
-          <div className="flex flex-col items-center p-4 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
-            <Zap className="h-6 w-6 text-gray-800 mb-2" />
-            <span className="text-base font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">Instant</span>
-            <span className="text-xs font-bold text-gray-600">Results</span>
+          <div className="flex flex-col items-center p-3 xs:p-4 sm:p-5 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
+            <Zap className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 text-gray-800 mb-1.5 xs:mb-2" />
+            <span className="text-sm xs:text-base sm:text-lg font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">Instant</span>
+            <span className="text-xs xs:text-sm sm:text-base font-bold text-gray-600">Results</span>
           </div>
-          <div className="flex flex-col items-center p-4 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
-            <Award className="h-6 w-6 text-gray-800 mb-2" />
-            <span className="text-base font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">95%+</span>
-            <span className="text-xs font-bold text-gray-600">Accuracy</span>
+          <div className="flex flex-col items-center p-3 xs:p-4 sm:p-5 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
+            <Award className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 text-gray-800 mb-1.5 xs:mb-2" />
+            <span className="text-sm xs:text-base sm:text-lg font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">95%+</span>
+            <span className="text-xs xs:text-sm sm:text-base font-bold text-gray-600">Accuracy</span>
           </div>
-          <div className="flex flex-col items-center p-4 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
-            <Fish className="h-6 w-6 text-gray-800 mb-2" />
-            <span className="text-base font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">100+</span>
-            <span className="text-xs font-bold text-gray-600">Diseases</span>
+          <div className="flex flex-col items-center p-3 xs:p-4 sm:p-5 rounded-xl bg-white border-2 border-gray-900 shadow-lg hover:shadow-xl transition-shadow">
+            <Fish className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 text-gray-800 mb-1.5 xs:mb-2" />
+            <span className="text-sm xs:text-base sm:text-lg font-extrabold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-0.5">100+</span>
+            <span className="text-xs xs:text-sm sm:text-base font-bold text-gray-600">Diseases</span>
           </div>
         </motion.div>
 
@@ -127,26 +127,26 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-8"
-        >
-          <Link to="/search">
-            <div className="relative">
-              <div className="relative bg-white rounded-xl border-2 border-gray-900 shadow-md hover:shadow-lg transition-shadow">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-700 pointer-events-none z-10" />
-                <input
-                  type="text"
-                  placeholder="Search diseases, medicines, treatments..."
-                  readOnly
-                  className="w-full pl-12 pr-4 py-4 rounded-lg bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 text-base font-medium cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.location.href = '/search'
-                  }}
-                />
-              </div>
-            </div>
-          </Link>
-        </motion.div>
+              className="mb-6 sm:mb-8"
+            >
+              <Link to="/search">
+                <div className="relative">
+                  <div className="relative bg-white rounded-lg xs:rounded-xl border-2 border-gray-900 shadow-md hover:shadow-lg transition-shadow">
+                    <Search className="absolute left-3 xs:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-gray-700 pointer-events-none z-10" />
+                    <input
+                      type="text"
+                      placeholder="Search diseases, medicines, treatments..."
+                      readOnly
+                      className="w-full pl-10 xs:pl-12 pr-3 xs:pr-4 py-3 xs:py-4 rounded-lg bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 text-base xs:text-lg font-medium cursor-pointer"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        window.location.href = '/search'
+                      }}
+                    />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
 
         {/* Detection Section */}
         <motion.div
@@ -157,63 +157,63 @@ export default function Home() {
         >
           <Card className="border-2 shadow-elegant-lg bg-gradient-to-br from-card to-card/50">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
+              <CardTitle className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
                 Detect the disease
               </CardTitle>
               
               {/* Step Flow - Mobile Horizontal Layout */}
-              <div className="flex items-center justify-between mb-6 gap-2">
-                {/* Step 1: Take a picture */}
-                <div className="flex flex-col items-center flex-1 min-w-0">
-                  <div className="w-16 h-16 border-2 border-dashed border-primary-300 rounded-lg flex items-center justify-center mb-2 bg-orange-50 flex-shrink-0">
-                    <Fish className="h-8 w-8 text-orange-500" />
-                  </div>
-                  <p className="text-xs text-center font-medium leading-tight">Take a picture</p>
-                </div>
-                
-                <ArrowRight className="h-4 w-4 text-muted-foreground mx-1 flex-shrink-0" />
-                
-                {/* Step 2: See diagnosis */}
-                <div className="flex flex-col items-center flex-1 min-w-0">
-                  <div className="w-16 h-16 border-2 border-primary-300 rounded-lg flex items-center justify-center mb-2 bg-green-50 flex-shrink-0">
-                    <div className="relative">
-                      <div className="w-10 h-10 bg-primary-100 rounded flex items-center justify-center">
-                        <CheckCircle2 className="h-6 w-6 text-green-600" />
+              <div className="flex items-center justify-between mb-4 sm:mb-6 gap-1 xs:gap-2">
+                    {/* Step 1: Take a picture */}
+                    <div className="flex flex-col items-center flex-1 min-w-0">
+                      <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 border-2 border-dashed border-primary-300 rounded-lg flex items-center justify-center mb-1.5 xs:mb-2 bg-orange-50 flex-shrink-0">
+                        <Fish className="h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 text-orange-500" />
                       </div>
+                      <p className="text-xs xs:text-sm sm:text-base text-center font-medium leading-tight">Take a picture</p>
                     </div>
-                  </div>
-                  <p className="text-xs text-center font-medium leading-tight">See diagnosis</p>
-                </div>
-                
-                <ArrowRight className="h-4 w-4 text-muted-foreground mx-1 flex-shrink-0" />
-                
-                {/* Step 3: Get medicine */}
-                <div className="flex flex-col items-center flex-1 min-w-0">
-                  <div className="w-16 h-16 border-2 border-primary-300 rounded-lg flex items-center justify-center mb-2 bg-blue-50 flex-shrink-0">
-                    <Pill className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <p className="text-xs text-center font-medium leading-tight">Get medicine</p>
-                </div>
+                    
+                    <ArrowRight className="h-3 w-3 xs:h-4 xs:w-4 text-muted-foreground mx-0.5 xs:mx-1 flex-shrink-0" />
+                    
+                    {/* Step 2: See diagnosis */}
+                    <div className="flex flex-col items-center flex-1 min-w-0">
+                      <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 border-2 border-primary-300 rounded-lg flex items-center justify-center mb-1.5 xs:mb-2 bg-green-50 flex-shrink-0">
+                        <div className="relative">
+                          <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 bg-primary-100 rounded flex items-center justify-center">
+                            <CheckCircle2 className="h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6 text-green-600" />
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-xs xs:text-sm sm:text-base text-center font-medium leading-tight">See diagnosis</p>
+                    </div>
+                    
+                    <ArrowRight className="h-3 w-3 xs:h-4 xs:w-4 text-muted-foreground mx-0.5 xs:mx-1 flex-shrink-0" />
+                    
+                    {/* Step 3: Get medicine */}
+                    <div className="flex flex-col items-center flex-1 min-w-0">
+                      <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 border-2 border-primary-300 rounded-lg flex items-center justify-center mb-1.5 xs:mb-2 bg-blue-50 flex-shrink-0">
+                        <Pill className="h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 text-blue-600" />
+                      </div>
+                      <p className="text-xs xs:text-sm sm:text-base text-center font-medium leading-tight">Get medicine</p>
+                    </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                <Button
-                  size="lg"
-                  onClick={handleUploadClick}
-                  className="flex-1 w-full sm:w-auto"
-                >
-                  <Upload className="h-5 w-5 mr-2" />
-                  <span className="text-white">Upload Image</span>
-                </Button>
-                <Button
-                  size="lg"
-                  onClick={handleUploadClick}
-                  variant="outline"
-                  className="flex-1 w-full sm:w-auto !border-blue-600 !text-blue-600 hover:!bg-blue-50"
-                >
-                  <Camera className="h-5 w-5 mr-2" />
-                  <span>Capture</span>
-                </Button>
+                  <div className="flex flex-col xs:flex-row gap-2 xs:gap-3 mt-3 xs:mt-4">
+                    <Button
+                      size="lg"
+                      onClick={handleUploadClick}
+                      className="flex-1 w-full xs:w-auto min-h-[44px] text-base xs:text-lg"
+                    >
+                      <Upload className="h-4 w-4 xs:h-5 xs:w-5 mr-1.5 xs:mr-2" />
+                      <span className="text-white">Upload Image</span>
+                    </Button>
+                    <Button
+                      size="lg"
+                      onClick={handleUploadClick}
+                      variant="outline"
+                      className="flex-1 w-full xs:w-auto !border-blue-600 !text-blue-600 hover:!bg-blue-50 min-h-[44px] text-base xs:text-lg"
+                    >
+                      <Camera className="h-4 w-4 xs:h-5 xs:w-5 mr-1.5 xs:mr-2" />
+                      <span>Capture</span>
+                    </Button>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -290,7 +290,7 @@ export default function Home() {
                               <Icon className={`h-6 w-6 ${category.color}`} />
                             </div>
                             <div className="h-10 flex items-center justify-center flex-grow">
-                              <p className="text-[10px] sm:text-xs font-semibold leading-tight break-words text-foreground text-center">
+                              <p className="text-xs sm:text-sm md:text-base font-semibold leading-tight break-words text-foreground text-center">
                                 {category.label}
                               </p>
                             </div>

@@ -108,12 +108,12 @@ export default function UploadCard({ onFileSelect, preview, onRemove }: UploadCa
             <ImageIcon className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
           )}
         </motion.div>
-        <h3 className="text-xl font-semibold mb-2">
-          {isDragging ? 'Drop your image here' : 'Upload or Take a Picture'}
-        </h3>
-        <p className="text-sm text-muted-foreground mb-6">
-          Drag and drop an image here, or click to browse
-        </p>
+            <h3 className="text-xl sm:text-2xl font-semibold mb-2">
+              {isDragging ? 'Drop your image here' : 'Upload or Take a Picture'}
+            </h3>
+            <p className="text-base sm:text-lg text-muted-foreground mb-6">
+              Drag and drop an image here, or click to browse
+            </p>
         <Button onClick={() => fileInputRef.current?.click()} size="lg">
           <Upload className="mr-2 h-4 w-4" />
           Select Image
@@ -126,9 +126,9 @@ export default function UploadCard({ onFileSelect, preview, onRemove }: UploadCa
           className="hidden"
           aria-label="File input"
         />
-        <p className="mt-4 text-xs text-muted-foreground">
-          Supports: JPG, PNG, WEBP (Max 10MB)
-        </p>
+            <p className="mt-4 text-sm sm:text-base text-muted-foreground">
+              Supports: JPG, PNG, WEBP (Max 10MB)
+            </p>
       </CardContent>
     </Card>
   )

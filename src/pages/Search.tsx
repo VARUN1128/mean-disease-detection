@@ -38,17 +38,17 @@ export default function Search() {
   const showMedicines = activeTab === 'all' || activeTab === 'medicines'
 
   return (
-    <div className="container mx-auto px-4 py-4 pb-24 md:pb-8 min-h-screen">
+    <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-3 xs:py-4 pb-24 md:pb-8 min-h-screen">
       <div className="max-w-2xl mx-auto">
         {/* Search Input - Prominent at top */}
-            <div className="relative mb-6 mt-4">
-              <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none z-10" />
+            <div className="relative mb-4 xs:mb-6 mt-2 xs:mt-4">
+              <SearchIcon className="absolute left-3 xs:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-muted-foreground pointer-events-none z-10" />
               <input
                 type="text"
                 placeholder="Search diseases, medicines..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 border-2 border-input rounded-lg bg-card focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-base shadow-elegant transition-all"
+                className="w-full pl-10 xs:pl-12 pr-3 xs:pr-4 py-3 xs:py-4 border-2 border-input rounded-lg bg-card focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-base xs:text-lg shadow-elegant transition-all min-h-[44px]"
               />
             </div>
 
@@ -107,8 +107,8 @@ export default function Search() {
                         <Link key={medicine.id} to="/medicines">
                           <Card className="card-hover">
                             <CardContent className="p-4">
-                              <h3 className="font-semibold mb-1">{medicine.name}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-2">
+                              <h3 className="text-lg sm:text-xl font-semibold mb-1">{medicine.name}</h3>
+                              <p className="text-base sm:text-lg text-muted-foreground line-clamp-2">
                                 {medicine.description}
                               </p>
                             </CardContent>

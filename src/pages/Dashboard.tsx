@@ -23,15 +23,15 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24 md:pb-8 min-h-screen">
+    <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 xs:py-6 sm:py-8 pb-24 md:pb-8 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 xs:mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
+            <h1 className="text-2xl xs:text-3xl sm:text-3xl md:text-4xl font-bold mb-2">Dashboard</h1>
             <p className="text-muted-foreground">
               View your detection history and manage your records
             </p>
@@ -66,7 +66,7 @@ export default function Dashboard() {
         ) : (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base sm:text-lg text-muted-foreground">
                 {detections.length} detection{detections.length !== 1 ? 's' : ''} found
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <h4 className="font-semibold mb-2">Confidence: {detection.confidence}%</h4>
+                            <h4 className="text-lg sm:text-xl font-semibold mb-2">Confidence: {detection.confidence}%</h4>
                           <div className="w-full bg-muted rounded-full h-2">
                             <div
                               className={`h-2 rounded-full ${
@@ -116,8 +116,8 @@ export default function Dashboard() {
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-semibold mb-2">Description:</h4>
-                          <p className="text-sm text-muted-foreground">{detection.description}</p>
+                            <h4 className="text-lg sm:text-xl font-semibold mb-2">Description:</h4>
+                            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">{detection.description}</p>
                         </div>
                         <div>
                           <h4 className="font-semibold mb-2">Recommended Medicines:</h4>

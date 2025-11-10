@@ -93,18 +93,18 @@ export default function Detect() {
   }, [selectedFile, addDetection])
 
   return (
-    <div className="container mx-auto px-4 py-8 pb-24 md:pb-8 min-h-screen">
+    <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 xs:py-6 sm:py-8 pb-24 md:pb-8 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl font-bold text-center mb-4">Disease Detection</h1>
-        <p className="text-center text-muted-foreground mb-8">
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl font-bold text-center mb-3 xs:mb-4">Disease Detection</h1>
+        <p className="text-center text-base xs:text-lg sm:text-xl text-muted-foreground mb-6 xs:mb-8 px-2">
           Upload an image of your fish or shrimp to get an AI-powered diagnosis
         </p>
 
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-4 xs:space-y-6 sm:space-y-8">
           {!preview && !isProcessing && (
             <UploadCard onFileSelect={handleFileSelect} />
           )}
@@ -115,7 +115,7 @@ export default function Detect() {
               <div className="text-center">
                 <button
                   onClick={handleDetect}
-                  className="px-8 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
+                  className="px-6 xs:px-8 py-2.5 xs:py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-[44px] text-base xs:text-lg w-full xs:w-auto"
                 >
                   Analyze Image
                 </button>
@@ -137,7 +137,7 @@ export default function Detect() {
               <div className="text-center">
                 <button
                   onClick={handleRemove}
-                  className="px-6 py-2 border border-input bg-background rounded-lg font-medium hover:bg-accent transition-colors"
+                  className="px-5 xs:px-6 py-2 border border-input bg-background rounded-lg font-medium hover:bg-accent transition-colors min-h-[44px] text-base xs:text-lg w-full xs:w-auto"
                 >
                   Analyze Another Image
                 </button>

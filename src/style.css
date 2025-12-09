@@ -238,7 +238,15 @@ nav[class*="fixed bottom-0"] {
   right: 0 !important;
   transform: translateZ(0);
   will-change: transform;
+  z-index: 9999 !important;
+}
+
+/* Mobile bottom nav safe area support */
+@media (max-width: 768px) {
+  nav[class*="fixed bottom-0"] {
+    padding-bottom: env(safe-area-inset-bottom);
   }
+}
 
 /* Ensure fixed footer stays at bottom of viewport */
 footer[class*="fixed bottom-0"] {

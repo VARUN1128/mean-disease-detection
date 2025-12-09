@@ -1,13 +1,29 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
+export interface Medicine {
+  name: string
+  dosage?: string
+  duration?: string
+}
+
 export interface DetectionResult {
   id: string
-  image: string
+  image: string // Base64 image - excluded from persistence to avoid localStorage quota
   diseaseName: string
   confidence: number
   description: string
-  medicines: string[]
+  medicines: Medicine[]
+  timestamp: string
+}
+
+// Type for persisted detection (without image to save space)
+export interface PersistedDetection {
+  id: string
+  diseaseName: string
+  confidence: number
+  description: string
+  medicines: Medicine[]
   timestamp: string
 }
 
@@ -25,16 +41,25 @@ export const useDetectionStore = create<DetectionState>()(
       detections: [],
       pendingFile: null,
       addDetection: (detection) =>
-        set((state) => ({
-          detections: [detection, ...state.detections],
-        })),
+        set((state) => {
+          // Limit to last 10 detections to prevent localStorage overflow
+          const newDetections = [detection, ...state.detections].slice(0, 10)
+          return { detections: newDetections }
+        }),
       clearDetections: () => set({ detections: [] }),
       setPendingFile: (file) => set({ pendingFile: file }),
     }),
     {
       name: 'detection-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ detections: state.detections }), // Only persist detections, not pendingFile
+      partialize: (state) => ({
+        // Only persist metadata without images to avoid localStorage quota issues
+        // Images are excluded because base64 encoding makes them very large
+        detections: state.detections.map(({ image, ...rest }) => ({
+          ...rest,
+          image: '', // Store empty string instead of base64 image
+        })),
+      }),
     }
   )
 )

@@ -12,7 +12,15 @@ export default function BottomNav() {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-[9999] bg-white backdrop-blur-lg border-t border-gray-300 md:hidden safe-area-inset-bottom shadow-elegant-lg" style={{ position: 'fixed', transform: 'translateZ(0)' }}>
+    <nav 
+      className="fixed bottom-0 left-0 right-0 z-[9999] bg-white backdrop-blur-lg border-t border-gray-300 md:hidden shadow-elegant-lg" 
+      style={{ 
+        position: 'fixed', 
+        transform: 'translateZ(0)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        bottom: 0
+      }}
+    >
       <div className="flex items-center justify-around h-16 px-2 max-w-full">
         {navItems.map((item) => {
           const Icon = item.icon

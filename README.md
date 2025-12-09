@@ -16,6 +16,7 @@ AquaVeritas is an AI-powered web application designed to help users detect fish 
 
 ## 🛠️ Tech Stack
 
+### Frontend
 - **Framework**: React 19 + Vite 7
 - **Language**: TypeScript
 - **Styling**: TailwindCSS v4
@@ -26,30 +27,56 @@ AquaVeritas is an AI-powered web application designed to help users detect fish 
 - **Icons**: Lucide React
 - **Date Formatting**: date-fns
 
+### Backend
+- **Framework**: FastAPI (Python)
+- **AI Model**: TensorFlow 2.16 (MobileNetV2)
+- **AI Descriptions**: Google Gemini API
+- **Database**: Supabase (PostgreSQL)
+- **Storage**: Supabase Storage
+- **Server**: Uvicorn (ASGI)
+
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 
+### Frontend
 - **Node.js** (v18 or higher recommended)
 - **npm** (v9 or higher) or **yarn** or **pnpm**
 
+### Backend
+- **Python** (3.9 or higher)
+- **pip** (Python package manager)
+- **Supabase Account** (for database and storage)
+- **Google Gemini API Key** (for AI-generated descriptions)
+- **TensorFlow Model** (`.h5` file) - MobileNetV2 model for disease classification
+
 ## 🚀 Getting Started
 
-### 1. Install Dependencies
+### Frontend Setup
+
+#### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Run Development Server
+#### 2. Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+#### 3. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+The frontend will be available at `http://localhost:5173`
 
-### 3. Build for Production
+#### 4. Build for Production
 
 ```bash
 npm run build
@@ -57,13 +84,27 @@ npm run build
 
 This creates an optimized production build in the `dist` folder.
 
-### 4. Preview Production Build
+### Backend Setup
 
+See the [Backend README](backend/README.md) for detailed setup instructions.
+
+**Quick Start:**
 ```bash
-npm run preview
+cd backend
+pip install -r requirements.txt
+cp env.template .env
+# Edit .env with your Supabase and Gemini API credentials
+python run.py
 ```
 
-This serves the production build locally for testing.
+The backend API will be available at `http://localhost:8000`
+
+**Required Environment Variables:**
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_KEY` - Your Supabase anon key
+- `SUPABASE_SERVICE_KEY` - Your Supabase service role key
+- `GOOGLE_API_KEY` - Your Google Gemini API key
+- `MODEL_PATH` - Path to your TensorFlow model file
 
 ## 📁 Project Structure
 
@@ -92,10 +133,26 @@ fish/
 │   │   ├── themeStore.ts   # Theme (dark/light) state
 │   │   └── detectionStore.ts # Detection history state
 │   ├── utils/              # Utility functions
+│   │   ├── api.ts          # Backend API client
+│   │   ├── textCleaner.ts  # Text cleaning utilities
 │   │   └── cn.ts           # Class name utility
 │   ├── App.tsx             # Main app component with routing
 │   ├── main.tsx            # Application entry point
 │   └── style.css           # Global styles and TailwindCSS
+├── backend/                # FastAPI backend
+│   ├── app.py              # Main FastAPI application
+│   ├── run.py              # Server startup script
+│   ├── routers/            # API route handlers
+│   │   ├── prediction.py   # Disease prediction endpoint
+│   │   ├── disease.py      # Disease information endpoints
+│   │   └── auth.py         # Authentication endpoints
+│   ├── models/             # TensorFlow model
+│   │   ├── loader.py       # Model loading and prediction
+│   │   └── fish_disease_model.h5  # TensorFlow model file
+│   ├── utils/              # Backend utilities
+│   │   └── supabase_client.py  # Supabase client
+│   ├── requirements.txt    # Python dependencies
+│   └── env.template        # Environment variables template
 ├── index.html              # HTML template
 ├── package.json            # Dependencies and scripts
 ├── tailwind.config.js      # TailwindCSS configuration
@@ -119,10 +176,11 @@ fish/
 - Medicine category grid
 
 ### Disease Detection (`/detect`)
-- Drag-and-drop image upload
-- AI-powered disease detection (simulated)
+- Drag-and-drop image upload or camera capture
+- AI-powered disease detection using TensorFlow MobileNetV2 model
+- Google Gemini AI-generated disease descriptions and treatment recommendations
 - Results display with confidence percentage
-- Recommended medicines list
+- Structured medicine recommendations with dosage information
 
 ### Disease Manual (`/manual`)
 - Tabbed interface for Fish and Shrimp diseases
@@ -147,13 +205,21 @@ fish/
 ### Theme Toggle
 The app includes a dark/light mode toggle that persists your preference in localStorage. The theme is managed via Zustand store in `src/store/themeStore.ts`.
 
-### Mock Data
-Currently, the app uses mock data for:
-- Disease detection results
-- Disease information
-- Medicine information
+### API Integration
+The app is fully integrated with the FastAPI backend:
+- Disease detection uses real TensorFlow model predictions
+- Disease descriptions and treatments are generated by Google Gemini AI
+- Detection history is stored in localStorage (images excluded to save space)
+- Backend API endpoint: `POST /predict` (public, no authentication required)
 
-To integrate with a real API, update the detection function in `src/pages/Detect.tsx` and replace mock data imports with API calls.
+### Environment Variables
+**Frontend (`.env` in root):**
+```env
+VITE_API_BASE_URL=http://localhost:8000
+```
+
+**Backend (`.env` in `backend/`):**
+See `backend/env.template` for all required variables.
 
 ## 🌐 Browser Support
 
@@ -164,19 +230,25 @@ To integrate with a real API, update the detection function in `src/pages/Detect
 
 ## 📝 Notes
 
-- The AI detection is currently simulated with a 2-second delay
-- Detection results are stored in localStorage
-- All images are processed client-side (no backend required for mock data)
-- The app is ready for API integration - simply replace the mock detection function
+- **Real AI Detection**: Uses TensorFlow MobileNetV2 model for disease classification
+- **AI-Generated Content**: Disease descriptions and treatments are generated by Google Gemini API
+- **Detection History**: Results are stored in localStorage (images excluded to save space)
+- **Public API**: The `/predict` endpoint is publicly accessible (no authentication required)
+- **Fallback Handling**: If Gemini API fails, fallback messages are displayed
+- **Image Storage**: Uploaded images are optionally stored in Supabase Storage
 
 ## 🤝 Contributing
 
-This is a frontend-only application. To add backend integration:
+This is a full-stack application with:
+- **Frontend**: React + TypeScript + TailwindCSS
+- **Backend**: FastAPI + TensorFlow + Google Gemini AI
 
-1. Replace `simulateDetection` function in `src/pages/Detect.tsx`
-2. Add API endpoints for disease and medicine data
-3. Update data fetching in respective pages
-4. Add authentication if needed
+The backend is already integrated. To extend functionality:
+
+1. Add new API endpoints in `backend/routers/`
+2. Update frontend API client in `src/utils/api.ts`
+3. Add new components in `src/components/`
+4. Update state management in `src/store/`
 
 ## 📄 License
 
@@ -197,19 +269,33 @@ Edit `src/data/medicines.ts` to add new medicine entries.
 
 ## 🐛 Troubleshooting
 
-### Build Errors
-If you encounter build errors:
+### Frontend Issues
+
+**Build Errors:**
 1. Delete `node_modules` and `package-lock.json`
 2. Run `npm install` again
 3. Clear Vite cache: `rm -rf node_modules/.vite` (or delete `.vite` folder)
 
-### Port Already in Use
-If port 5173 is already in use:
+**Port Already in Use:**
 - Vite will automatically suggest an alternative port
 - Or specify a port: `npm run dev -- --port 3000`
 
-### TypeScript Errors
-Ensure all TypeScript types are properly defined. Run `npm run build` to check for type errors.
+**TypeScript Errors:**
+- Ensure all TypeScript types are properly defined
+- Run `npm run build` to check for type errors
+
+**API Connection Errors:**
+- Ensure the backend server is running on `http://localhost:8000`
+- Check `VITE_API_BASE_URL` in `.env` file
+- Verify CORS is configured in the backend
+
+### Backend Issues
+
+See [Backend README](backend/README.md) for detailed troubleshooting:
+- Model loading issues
+- Gemini API configuration
+- Supabase connection errors
+- Storage upload failures
 
 ---
 

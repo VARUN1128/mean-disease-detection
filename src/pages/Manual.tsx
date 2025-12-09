@@ -16,6 +16,9 @@ import { fishDiseases, Disease } from '../data/fishDiseases'
 import { shrimpDiseases } from '../data/shrimpDiseases'
 
 const DiseaseCard = ({ disease, onViewDetails }: { disease: Disease; onViewDetails: () => void }) => {
+  const [imageError, setImageError] = useState(false)
+  const [imageLoading, setImageLoading] = useState(true)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -32,13 +35,34 @@ const DiseaseCard = ({ disease, onViewDetails }: { disease: Disease; onViewDetai
           </div>
         </CardHeader>
         <CardContent>
-          <div className="relative overflow-hidden rounded-lg mb-4 group-hover:scale-[1.02] transition-transform duration-300">
-            <img
-              src={disease.image}
-              alt={disease.name}
-              className="w-full h-48 object-cover"
-              loading="lazy"
-            />
+          <div className="relative overflow-hidden rounded-lg mb-4 group-hover:scale-[1.02] transition-transform duration-300 bg-slate-100">
+            {imageError || !disease.image ? (
+              <div className="w-full h-48 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
+                <div className="text-center p-4">
+                  <div className="text-4xl mb-2">🐟</div>
+                  <p className="text-sm text-slate-600 font-medium">{disease.name}</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                {imageLoading && (
+                  <div className="absolute inset-0 bg-slate-200 animate-pulse flex items-center justify-center">
+                    <div className="text-slate-400 text-sm">Loading...</div>
+                  </div>
+                )}
+                <img
+                  src={disease.image}
+                  alt={disease.name}
+                  className={`w-full h-48 object-cover ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                  loading="lazy"
+                  onLoad={() => setImageLoading(false)}
+                  onError={() => {
+                    setImageError(true)
+                    setImageLoading(false)
+                  }}
+                />
+              </>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <Button onClick={onViewDetails} variant="outline" className="w-full group-hover:border-primary-400">
@@ -60,6 +84,17 @@ function DiseaseModal({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+  const [imageError, setImageError] = useState(false)
+  const [imageLoading, setImageLoading] = useState(true)
+
+  // Reset image state when disease changes
+  useEffect(() => {
+    if (disease) {
+      setImageError(false)
+      setImageLoading(true)
+    }
+  }, [disease])
+
   if (!disease) return null
 
   return (
@@ -70,12 +105,33 @@ function DiseaseModal({
           <DialogDescription>{disease.description}</DialogDescription>
         </DialogHeader>
         <div className="space-y-6 mt-4">
-          <div>
-            <img
-              src={disease.image}
-              alt={disease.name}
-              className="w-full h-64 object-cover rounded-lg"
-            />
+          <div className="relative rounded-lg overflow-hidden bg-slate-100">
+            {imageError || !disease.image ? (
+              <div className="w-full h-64 flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
+                <div className="text-center p-4">
+                  <div className="text-5xl mb-2">🐟</div>
+                  <p className="text-base text-slate-600 font-medium">{disease.name}</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                {imageLoading && (
+                  <div className="absolute inset-0 bg-slate-200 animate-pulse flex items-center justify-center">
+                    <div className="text-slate-400 text-sm">Loading...</div>
+                  </div>
+                )}
+                <img
+                  src={disease.image}
+                  alt={disease.name}
+                  className={`w-full h-64 object-cover ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                  onLoad={() => setImageLoading(false)}
+                  onError={() => {
+                    setImageError(true)
+                    setImageLoading(false)
+                  }}
+                />
+              </>
+            )}
           </div>
           <div>
             <h4 className="font-semibold mb-2">Symptoms:</h4>

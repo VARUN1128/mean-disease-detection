@@ -4,41 +4,16 @@ import UploadCard from '../components/UploadCard'
 import Loader from '../components/Loader'
 import ResultCard from '../components/ResultCard'
 import { useDetectionStore, DetectionResult } from '../store/detectionStore'
-import { fishDiseases } from '../data/fishDiseases'
-import { shrimpDiseases } from '../data/shrimpDiseases'
-
-// Mock AI detection function - optimized
-const simulateDetection = (imageFile: File): Promise<DetectionResult> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Randomly select a disease (mix of fish and shrimp)
-      const allDiseases = [...fishDiseases, ...shrimpDiseases]
-      const randomDisease = allDiseases[Math.floor(Math.random() * allDiseases.length)]
-      const confidence = Math.floor(Math.random() * 30) + 70 // 70-100%
-
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const result: DetectionResult = {
-          id: Date.now().toString(),
-          image: e.target?.result as string,
-          diseaseName: randomDisease.name,
-          confidence,
-          description: randomDisease.description,
-          medicines: randomDisease.treatment.medicines,
-          timestamp: new Date().toISOString(),
-        }
-        resolve(result)
-      }
-      reader.readAsDataURL(imageFile)
-    }, 2000) // Simulate 2 second processing
-  })
-}
+import { predictDisease } from '../utils/api'
+import { AlertCircle } from 'lucide-react'
+import { cleanText } from '../utils/textCleaner'
 
 export default function Detect() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [result, setResult] = useState<DetectionResult | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const { addDetection, pendingFile, setPendingFile } = useDetectionStore()
 
   // Handle file passed from Home page via store
@@ -64,6 +39,7 @@ export default function Detect() {
   const handleFileSelect = useCallback((file: File) => {
     setSelectedFile(file)
     setResult(null)
+    setError(null)
     const reader = new FileReader()
     reader.onload = (e) => {
       setPreview(e.target?.result as string)
@@ -75,18 +51,137 @@ export default function Detect() {
     setSelectedFile(null)
     setPreview(null)
     setResult(null)
+    setError(null)
   }, [])
 
   const handleDetect = useCallback(async () => {
     if (!selectedFile) return
 
     setIsProcessing(true)
+    setError(null)
+
     try {
-      const detectionResult = await simulateDetection(selectedFile)
-      setResult(detectionResult)
-      addDetection(detectionResult)
-    } catch (error) {
-      console.error('Detection failed:', error)
+      console.log('Starting prediction for file:', selectedFile.name, selectedFile.size, 'bytes')
+      
+      // Call the backend API directly (no authentication required)
+      const apiResponse = await predictDisease(selectedFile)
+      
+      console.log('Prediction successful:', apiResponse)
+
+      // Clean description and recommended text first
+      let cleanDescription = cleanText(apiResponse.description || '')
+      if (cleanDescription.toLowerCase().includes('disclaimer')) {
+        const disclaimerIndex = cleanDescription.toLowerCase().indexOf('disclaimer')
+        cleanDescription = cleanDescription.substring(0, disclaimerIndex).trim()
+      }
+      
+      let cleanRecommended = cleanText(apiResponse.recommended || '')
+      
+      // Parse recommended medicines from Gemini response
+      const parseMedicines = (text: string) => {
+        const medicines: Array<{ name: string; dosage: string; duration: string }> = []
+        
+        // Split by common patterns (numbered lists, bullet points, or line breaks)
+        const lines = text
+          .split(/\n+/)
+          .map(line => line.trim())
+          .filter(line => line.length > 0 && !line.toLowerCase().includes('disclaimer'))
+        
+        for (const line of lines) {
+          // Skip headers or section titles
+          if (line.toLowerCase().includes('treatment') && line.length < 50) continue
+          if (line.toLowerCase().includes('dosage') && line.length < 30) continue
+          
+          // Try to parse "Medicine Name: dosage info" format
+          if (line.includes(':')) {
+            const [name, ...dosageParts] = line.split(':')
+            const nameClean = name.trim().replace(/^[-•\d.\s]+/, '').trim() // Remove bullets/numbers
+            const dosageClean = dosageParts.join(':').trim()
+            
+            if (nameClean.length > 0) {
+              medicines.push({
+                name: nameClean,
+                dosage: dosageClean || '',
+                duration: '',
+              })
+            }
+          } else if (line.length > 10) {
+            // If no colon, treat the whole line as medicine name
+            const nameClean = line.replace(/^[-•\d.\s]+/, '').trim()
+            if (nameClean.length > 0) {
+              medicines.push({
+                name: nameClean,
+                dosage: '',
+                duration: '',
+              })
+            }
+          }
+        }
+        
+        // If no medicines parsed, create a single entry with the full text
+        if (medicines.length === 0 && text.trim().length > 0) {
+          medicines.push({
+            name: text.split('\n')[0].substring(0, 100) || 'See recommended treatments',
+            dosage: '',
+            duration: '',
+          })
+        }
+        
+        return medicines.slice(0, 5) // Limit to 5 medicines
+      }
+      
+      const medicines = parseMedicines(cleanRecommended)
+      
+      console.log('Parsed medicines:', medicines)
+      console.log('Clean description length:', cleanDescription.length)
+      console.log('Clean recommended length:', cleanRecommended.length)
+
+      // Convert API response to DetectionResult format
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const detectionResult: DetectionResult = {
+          id: Date.now().toString(),
+          image: e.target?.result as string,
+          diseaseName: apiResponse.prediction,
+          confidence: Math.round(apiResponse.confidence * 100), // Convert to percentage
+          description: cleanDescription,
+          medicines: medicines,
+          timestamp: new Date().toISOString(),
+        }
+        console.log('Setting result:', {
+          diseaseName: detectionResult.diseaseName,
+          confidence: detectionResult.confidence,
+          descriptionLength: detectionResult.description.length,
+          medicinesCount: detectionResult.medicines.length
+        })
+        setResult(detectionResult)
+        addDetection(detectionResult)
+      }
+      reader.onerror = (error) => {
+        console.error('FileReader error:', error)
+        setError('Failed to process image file')
+        setIsProcessing(false)
+      }
+      reader.readAsDataURL(selectedFile)
+    } catch (err) {
+      // Enhanced error handling with user-friendly messages
+      let errorMessage = 'Detection failed. Please try again.'
+      
+      if (err instanceof Error) {
+        errorMessage = err.message
+        
+        // Provide more specific error messages
+        if (err.message.includes('Failed to fetch') || err.message.includes('ERR_CONNECTION_RESET')) {
+          errorMessage = 'Cannot connect to the server. Please make sure the backend is running on http://localhost:8000'
+        } else if (err.message.includes('API error 500')) {
+          errorMessage = 'Server error occurred. Please try again or contact support.'
+        } else if (err.message.includes('API error 400')) {
+          errorMessage = 'Invalid image file. Please upload a valid image.'
+        }
+      }
+      
+      setError(errorMessage)
+      console.error('Detection failed:', err)
     } finally {
       setIsProcessing(false)
     }
@@ -112,12 +207,22 @@ export default function Detect() {
           {preview && !isProcessing && !result && (
             <div className="space-y-4">
               <UploadCard preview={preview} onRemove={handleRemove} />
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 border-2 border-red-200 rounded-lg p-4 flex items-center gap-3"
+                >
+                  <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                  <p className="text-red-800 text-sm sm:text-base">{error}</p>
+                </motion.div>
+              )}
               <div className="text-center">
                 <button
                   onClick={handleDetect}
-                  className="px-6 xs:px-8 py-2.5 xs:py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-[44px] text-base xs:text-lg w-full xs:w-auto"
+                  className="px-6 xs:px-8 py-2.5 xs:py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors min-h-[44px] text-base xs:text-lg w-full xs:w-auto"
                 >
-                  Analyze Image
+                  Detect Now
                 </button>
               </div>
             </div>
@@ -149,4 +254,3 @@ export default function Detect() {
     </div>
   )
 }
-

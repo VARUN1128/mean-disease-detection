@@ -91,14 +91,20 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-6">
-                      <div className="relative overflow-hidden rounded-lg group">
-                        <img
-                          src={detection.image}
-                          alt="Detection"
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      </div>
+                      {detection.image ? (
+                        <div className="relative overflow-hidden rounded-lg group">
+                          <img
+                            src={detection.image}
+                            alt="Detection"
+                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                        </div>
+                      ) : (
+                        <div className="relative overflow-hidden rounded-lg group bg-slate-100 flex items-center justify-center h-48">
+                          <p className="text-sm text-muted-foreground">Image not available</p>
+                        </div>
+                      )}
                       <div className="space-y-4">
                         <div>
                             <h4 className="text-lg sm:text-xl font-semibold mb-2">Confidence: {detection.confidence}%</h4>
@@ -121,13 +127,34 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <h4 className="font-semibold mb-2">Recommended Medicines:</h4>
-                          <ul className="space-y-1">
-                            {detection.medicines.map((medicine, index) => (
-                              <li key={index} className="text-sm text-muted-foreground flex items-center">
-                                <span className="h-2 w-2 rounded-full bg-primary-600 mr-2"></span>
-                                {medicine}
-                              </li>
-                            ))}
+                          <ul className="space-y-3">
+                            {detection.medicines.map((medicine, index) => {
+                              // Handle both string and object formats
+                              const medicineName = typeof medicine === 'string' ? medicine : medicine.name
+                              const medicineDosage = typeof medicine === 'object' ? medicine.dosage : undefined
+                              const medicineDuration = typeof medicine === 'object' ? medicine.duration : undefined
+                              
+                              return (
+                                <li key={index} className="flex items-start space-x-3">
+                                  <span className="h-2 w-2 rounded-full bg-blue-600 mt-2 flex-shrink-0"></span>
+                                  <div className="flex-1">
+                                    <div className="font-semibold text-sm sm:text-base text-foreground mb-1">
+                                      {medicineName}
+                                    </div>
+                                    {medicineDosage && (
+                                      <div className="text-xs sm:text-sm text-muted-foreground mt-1 leading-relaxed">
+                                        {medicineDosage}
+                                      </div>
+                                    )}
+                                    {medicineDuration && (
+                                      <div className="text-xs text-muted-foreground mt-1">
+                                        Duration: {medicineDuration}
+                                      </div>
+                                    )}
+                                  </div>
+                                </li>
+                              )
+                            })}
                           </ul>
                         </div>
                       </div>

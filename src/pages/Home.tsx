@@ -53,27 +53,79 @@ export default function Home() {
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const captureInputRef = useRef<HTMLInputElement>(null)
+  const isNavigatingRef = useRef(false)
   const { setPendingFile, detections } = useDetectionStore()
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+    const inputElement = e.target
+    
     if (file && file.type.startsWith('image/')) {
       // Convert file to base64 and store it
       const reader = new FileReader()
       reader.onload = (event) => {
-        const data = event.target?.result as string
-        setPendingFile({
-          data,
-          name: file.name,
-          type: file.type,
-        })
-        // Navigate to detect page
-        navigate('/detect')
+        try {
+          const data = event.target?.result as string
+          if (!data) {
+            console.error('No data from file reader')
+            if (inputElement) {
+              inputElement.value = ''
+            }
+            return
+          }
+          
+          setPendingFile({
+            data,
+            name: file.name || 'captured-image.jpg',
+            type: file.type || 'image/jpeg',
+          })
+          
+          // Reset input value after file is processed
+          if (inputElement) {
+            inputElement.value = ''
+          }
+          
+          // Prevent multiple navigations
+          if (!isNavigatingRef.current) {
+            isNavigatingRef.current = true
+            console.log('File processed, navigating to /detect')
+            // Small delay to ensure state is set before navigation
+            setTimeout(() => {
+              try {
+                navigate('/detect', { replace: false })
+                console.log('Navigation to /detect completed')
+              } catch (error) {
+                console.error('Navigation error:', error)
+                isNavigatingRef.current = false
+              }
+              // Reset flag after navigation
+              setTimeout(() => {
+                isNavigatingRef.current = false
+              }, 2000)
+            }, 200)
+          } else {
+            console.log('Navigation already in progress, skipping')
+          }
+        } catch (error) {
+          console.error('Error processing file:', error)
+          if (inputElement) {
+            inputElement.value = ''
+          }
+        }
+      }
+      reader.onerror = (error) => {
+        console.error('FileReader error:', error)
+        if (inputElement) {
+          inputElement.value = ''
+        }
       }
       reader.readAsDataURL(file)
+    } else {
+      // Reset input if no valid file
+      if (inputElement) {
+        inputElement.value = ''
+      }
     }
-    // Reset input value so it can be used again
-    e.target.value = ''
   }
 
   const handleUploadClick = () => {

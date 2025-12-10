@@ -344,7 +344,11 @@ export default function Home() {
               }
 
               return (
-                <div key={index} onClick={() => handleQuickAction(action.action)} className="cursor-pointer">
+                <div key={index} onClick={() => {
+                  if (action.action) {
+                    handleQuickAction(action.action)
+                  }
+                }} className="cursor-pointer">
                   {content}
                 </div>
               )

@@ -5,7 +5,14 @@
 // Remove trailing slash from API base URL to avoid double slashes
 const getApiBaseUrl = () => {
   const url = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000'
-  return url.replace(/\/+$/, '') // Remove trailing slashes
+  const cleanUrl = url.replace(/\/+$/, '') // Remove trailing slashes
+  
+  // Log the API URL in development for debugging (not in production)
+  if (import.meta.env.DEV) {
+    console.log('API Base URL:', cleanUrl)
+  }
+  
+  return cleanUrl
 }
 
 const API_BASE_URL = getApiBaseUrl()
@@ -113,7 +120,11 @@ export async function predictDisease(imageFile: File): Promise<PredictionRespons
       }
     } catch {
       // If we can't read the response, use status
-      errorMessage = `API error ${response.status}: ${response.statusText}`
+      if (response.status === 0 || response.status === 404) {
+        errorMessage = 'Cannot connect to the server. Please check your internet connection.'
+      } else {
+        errorMessage = `API error ${response.status}: ${response.statusText}`
+      }
     }
     throw new Error(errorMessage)
   }

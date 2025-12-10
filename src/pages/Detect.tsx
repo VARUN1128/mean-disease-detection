@@ -171,12 +171,14 @@ export default function Detect() {
         errorMessage = err.message
         
         // Provide more specific error messages
-        if (err.message.includes('Failed to fetch') || err.message.includes('ERR_CONNECTION_RESET')) {
-          errorMessage = 'Cannot connect to the server. Please make sure the backend is running on http://localhost:8000'
+        if (err.message.includes('Failed to fetch') || err.message.includes('ERR_CONNECTION_RESET') || err.message.includes('NetworkError')) {
+          errorMessage = 'Cannot connect to the server. Please check your internet connection and try again.'
         } else if (err.message.includes('API error 500')) {
           errorMessage = 'Server error occurred. Please try again or contact support.'
         } else if (err.message.includes('API error 400')) {
           errorMessage = 'Invalid image file. Please upload a valid image.'
+        } else if (err.message.includes('API error 404')) {
+          errorMessage = 'Service temporarily unavailable. Please try again later.'
         }
       }
       

@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
@@ -8,14 +8,37 @@ import BottomNav from './components/BottomNav'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { SkeletonCard } from './components/Skeleton'
 
-// Lazy load pages for code splitting
-const Home = lazy(() => import('./pages/Home'))
-const Detect = lazy(() => import('./pages/Detect'))
-const Manual = lazy(() => import('./pages/Manual'))
-const Medicines = lazy(() => import('./pages/Medicines'))
-const Dashboard = lazy(() => import('./pages/Dashboard'))
-const Search = lazy(() => import('./pages/Search'))
-const Market = lazy(() => import('./pages/Market'))
+// Lazy load pages for code splitting with error handling
+const lazyLoad = (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
+  return lazy(() => 
+    importFn().catch((error) => {
+      console.error('Failed to load module:', error)
+      // Return a fallback component
+      return {
+        default: () => (
+          <div className="container mx-auto px-4 py-8 text-center">
+            <h2 className="text-xl font-semibold mb-4">Failed to load page</h2>
+            <p className="text-gray-600 mb-4">Please refresh the page to try again.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Refresh Page
+            </button>
+          </div>
+        )
+      }
+    })
+  )
+}
+
+const Home = lazyLoad(() => import('./pages/Home'))
+const Detect = lazyLoad(() => import('./pages/Detect'))
+const Manual = lazyLoad(() => import('./pages/Manual'))
+const Medicines = lazyLoad(() => import('./pages/Medicines'))
+const Dashboard = lazyLoad(() => import('./pages/Dashboard'))
+const Search = lazyLoad(() => import('./pages/Search'))
+const Market = lazyLoad(() => import('./pages/Market'))
 
 function PageWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation()

@@ -7,24 +7,48 @@ import Footer from './components/Footer'
 import BottomNav from './components/BottomNav'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { SkeletonCard } from './components/Skeleton'
+import { AlertCircle } from 'lucide-react'
 
-// Lazy load pages for code splitting with error handling
+// Retry function for failed imports (especially useful for mobile)
+const retryImport = async (
+  importFn: () => Promise<{ default: React.ComponentType<any> }>,
+  retries = 3,
+  delay = 1000
+): Promise<{ default: React.ComponentType<any> }> => {
+  try {
+    return await importFn()
+  } catch (error) {
+    if (retries > 0) {
+      console.warn(`Module import failed, retrying... (${retries} attempts left)`)
+      await new Promise(resolve => setTimeout(resolve, delay))
+      return retryImport(importFn, retries - 1, delay * 2) // Exponential backoff
+    }
+    throw error
+  }
+}
+
+// Lazy load pages for code splitting with error handling and retry
 const lazyLoad = (importFn: () => Promise<{ default: React.ComponentType<any> }>) => {
   return lazy(() => 
-    importFn().catch((error) => {
-      console.error('Failed to load module:', error)
+    retryImport(importFn).catch((error) => {
+      console.error('Failed to load module after retries:', error)
       // Return a fallback component
       return {
         default: () => (
-          <div className="container mx-auto px-4 py-8 text-center">
-            <h2 className="text-xl font-semibold mb-4">Failed to load page</h2>
-            <p className="text-gray-600 mb-4">Please refresh the page to try again.</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Refresh Page
-            </button>
+          <div className="container mx-auto px-4 py-8 text-center min-h-screen flex items-center justify-center">
+            <div className="max-w-md w-full space-y-4">
+              <div className="mx-auto w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                <AlertCircle className="h-8 w-8 text-red-600" />
+              </div>
+              <h2 className="text-2xl font-bold">Failed to load page</h2>
+              <p className="text-gray-600">Please check your internet connection and try again.</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="w-full px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 font-medium"
+              >
+                Refresh Page
+              </button>
+            </div>
           </div>
         )
       }
@@ -136,6 +160,19 @@ function AppRoutes() {
 }
 
 function App() {
+  // Preload critical routes on mount (especially for mobile)
+  React.useEffect(() => {
+    // Preload Detect page since it's used after image capture
+    if (typeof window !== 'undefined') {
+      const preloadDetect = () => {
+        import('./pages/Detect').catch(() => {})
+      }
+      // Preload after a short delay to not block initial render
+      const timer = setTimeout(preloadDetect, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   return (
     <ErrorBoundary>
       <BrowserRouter>

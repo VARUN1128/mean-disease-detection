@@ -18,8 +18,6 @@ import {
   Upload,
   Camera,
   Clock,
-  BookOpen,
-  Package,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import Button from '../components/ui/Button'
@@ -36,10 +34,10 @@ const medicineCategories = [
 
 
 const quickActions = [
-  { icon: Camera, label: 'Capture', action: 'capture', color: 'bg-blue-600 hover:bg-blue-700' },
-  { icon: Upload, label: 'Upload', action: 'upload', color: 'bg-teal-600 hover:bg-teal-700' },
-  { icon: BookOpen, label: 'Manual', route: '/manual', color: 'bg-emerald-600 hover:bg-emerald-700' },
-  { icon: Package, label: 'Medicines', route: '/medicines', color: 'bg-cyan-600 hover:bg-cyan-700' },
+  { image: '/images/quick-actions/camera.png', label: 'Capture', action: 'capture', color: 'bg-blue-600 hover:bg-blue-700' },
+  { image: '/images/quick-actions/upload.png', label: 'Upload', action: 'upload', color: 'bg-teal-600 hover:bg-teal-700' },
+  { image: '/images/quick-actions/manual.png', label: 'Manual', route: '/manual', color: 'bg-emerald-600 hover:bg-emerald-700' },
+  { image: '/images/quick-actions/medicine.png', label: 'Medicines', route: '/medicines', color: 'bg-cyan-600 hover:bg-cyan-700' },
 ]
 
 // Check if device is mobile - more reliable detection
@@ -469,7 +467,6 @@ export default function Home() {
           <h3 className="text-sm xs:text-base sm:text-base md:text-lg font-semibold text-slate-900 mb-2.5 xs:mb-3 sm:mb-4">Quick Actions</h3>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 xs:gap-2.5 sm:gap-2.5 md:gap-3 lg:gap-4">
             {quickActions.map((action, index) => {
-              const Icon = action.icon
               const content = (
                 <motion.div
                   whileHover={{ y: -2 }}
@@ -479,8 +476,17 @@ export default function Home() {
                 >
                   <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-[#F8FAFC] transition-all duration-200 cursor-pointer">
                     <CardContent className="p-2.5 xs:p-3 sm:p-3.5 md:p-4 lg:p-5 flex flex-col items-center text-center">
-                      <div className={`w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md ${action.color} flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-2.5 shadow-sm`}>
-                        <Icon className="h-5 w-5 xs:h-5 xs:w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 text-white" strokeWidth={2} />
+                      <div className={`w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md ${action.color} flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-2.5 shadow-sm overflow-hidden`}>
+                        <img 
+                          src={action.image} 
+                          alt={action.label}
+                          className="w-full h-full object-contain p-1.5"
+                          onError={(e) => {
+                            // Fallback to icon if image fails to load
+                            console.error(`Failed to load image: ${action.image}`)
+                            e.currentTarget.style.display = 'none'
+                          }}
+                        />
                       </div>
                       <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium text-slate-900 leading-tight">
                         {action.label}

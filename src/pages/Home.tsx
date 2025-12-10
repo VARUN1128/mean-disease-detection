@@ -474,23 +474,26 @@ export default function Home() {
                   transition={{ duration: 0.15 }}
                   className="cursor-pointer"
                 >
-                  <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-[#F8FAFC] transition-all duration-200 cursor-pointer">
-                    <CardContent className="p-2.5 xs:p-3 sm:p-3.5 md:p-4 lg:p-5 flex flex-col items-center text-center">
-                      <div className={`w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-md ${action.color} flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-2.5 shadow-sm overflow-hidden`}>
+                  <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
+                    <CardContent className="p-0 flex flex-col h-full">
+                      {/* Image fills the entire box */}
+                      <div className="w-full aspect-square relative overflow-hidden">
                         <img 
                           src={action.image} 
                           alt={action.label}
-                          className="w-full h-full object-contain p-1.5"
+                          className="w-full h-full object-cover"
                           onError={(e) => {
-                            // Fallback to icon if image fails to load
                             console.error(`Failed to load image: ${action.image}`)
                             e.currentTarget.style.display = 'none'
                           }}
                         />
                       </div>
-                      <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium text-slate-900 leading-tight">
-                        {action.label}
-                      </p>
+                      {/* Label below the image */}
+                      <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
+                        <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium text-slate-900 leading-tight">
+                          {action.label}
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>

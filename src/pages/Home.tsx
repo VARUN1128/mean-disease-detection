@@ -72,6 +72,8 @@ export default function Home() {
       }
       reader.readAsDataURL(file)
     }
+    // Reset input value so it can be used again
+    e.target.value = ''
   }
 
   const handleUploadClick = () => {
@@ -79,7 +81,11 @@ export default function Home() {
   }
 
   const handleCaptureClick = () => {
-    captureInputRef.current?.click()
+    // Reset the input first to ensure it can capture again
+    if (captureInputRef.current) {
+      captureInputRef.current.value = ''
+      captureInputRef.current.click()
+    }
   }
 
   const handleQuickAction = (action: string) => {
@@ -226,7 +232,7 @@ export default function Home() {
                   ref={captureInputRef}
                   type="file"
                   accept="image/*"
-                  capture="environment"
+                  capture
                   onChange={handleFileSelect}
                   className="hidden"
                   aria-label="Capture image with camera"

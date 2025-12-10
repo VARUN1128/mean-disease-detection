@@ -10,6 +10,13 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl()
 
+// Helper function to build API URLs without double slashes
+const buildApiUrl = (path: string): string => {
+  const base = API_BASE_URL.replace(/\/+$/, '') // Remove trailing slashes
+  const cleanPath = path.startsWith('/') ? path : `/${path}` // Ensure path starts with /
+  return `${base}${cleanPath}`.replace(/([^:]\/)\/+/g, '$1') // Remove double slashes (except after ://)
+}
+
 export interface AuthResponse {
   access_token: string
   token_type: string
@@ -29,7 +36,7 @@ export interface PredictionResponse {
  * Register a new user
  */
 export async function registerUser(email: string, password: string): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/auth/register`, {
+  const response = await fetch(buildApiUrl('/auth/register'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +62,7 @@ export async function registerUser(email: string, password: string): Promise<Aut
  * Login user
  */
 export async function loginUser(email: string, password: string): Promise<AuthResponse> {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+  const response = await fetch(buildApiUrl('/auth/login'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -87,7 +94,7 @@ export async function predictDisease(imageFile: File): Promise<PredictionRespons
   formData.append('file', imageFile)
 
   // Do NOT set Content-Type header - browser will set it with multipart boundary
-  const response = await fetch(`${API_BASE_URL}/predict`, {
+  const response = await fetch(buildApiUrl('/predict'), {
     method: 'POST',
     body: formData,
     // No headers - let browser set Content-Type with boundary automatically
@@ -118,7 +125,7 @@ export async function predictDisease(imageFile: File): Promise<PredictionRespons
  * Get all diseases
  */
 export async function getAllDiseases() {
-  const response = await fetch(`${API_BASE_URL}/diseases`, {
+  const response = await fetch(buildApiUrl('/diseases'), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -137,7 +144,7 @@ export async function getAllDiseases() {
  * Get disease by ID
  */
 export async function getDiseaseById(diseaseId: string) {
-  const response = await fetch(`${API_BASE_URL}/diseases/${diseaseId}`, {
+  const response = await fetch(buildApiUrl(`/diseases/${diseaseId}`), {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

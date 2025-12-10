@@ -50,10 +50,22 @@ const quickActions = [
   { icon: Package, label: 'Medicines', route: '/medicines', color: 'bg-cyan-600 hover:bg-cyan-700' },
 ]
 
-// Check if device is mobile
+// Check if device is mobile - more reliable detection
 const isMobileDevice = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    (typeof window !== 'undefined' && window.innerWidth < 768)
+  if (typeof window === 'undefined') return false
+  
+  // Check user agent
+  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
+  const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
+  
+  // Check screen width (mobile is typically < 768px)
+  const isMobileWidth = window.innerWidth < 768
+  
+  // Check for touch support
+  const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  
+  // Consider it mobile if it matches user agent OR (has touch AND small width)
+  return isMobileUA || (hasTouch && isMobileWidth)
 }
 
 export default function Home() {
@@ -136,20 +148,41 @@ export default function Home() {
     }
   }
 
-  const handleUploadClick = () => {
+  const handleUploadClick = (e?: React.MouseEvent) => {
+    e?.preventDefault()
+    e?.stopPropagation()
+    console.log('Upload clicked, triggering upload input')
     fileInputRef.current?.click()
   }
 
-  const handleCaptureClick = () => {
+  const handleCaptureClick = (e?: React.MouseEvent) => {
+    // Prevent any default behavior
+    e?.preventDefault()
+    e?.stopPropagation()
+    
     // On mobile, use file input with capture attribute
     // On desktop, open camera modal
-    if (isMobileDevice()) {
+    const isMobile = isMobileDevice()
+    console.log('Capture clicked, isMobile:', isMobile, 'UserAgent:', navigator.userAgent)
+    
+    if (isMobile) {
       if (captureInputRef.current) {
+        console.log('Triggering capture input')
+        // Reset and trigger capture input
         captureInputRef.current.value = ''
-        captureInputRef.current.click()
+        // Small delay to ensure reset is processed
+        setTimeout(() => {
+          if (captureInputRef.current) {
+            captureInputRef.current.click()
+            console.log('Capture input clicked')
+          }
+        }, 100)
+      } else {
+        console.error('Capture input ref is null')
       }
     } else {
       // Desktop: Open camera modal
+      console.log('Opening camera modal (desktop)')
       setIsCameraOpen(true)
     }
   }
@@ -323,19 +356,27 @@ export default function Home() {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleFileSelect}
+                  onChange={(e) => {
+                    console.log('Upload input changed')
+                    handleFileSelect(e)
+                  }}
                   className="hidden"
                   aria-label="Upload image from gallery"
+                  id="upload-input"
                 />
                 {/* Capture input - opens camera (with capture attribute) */}
                 <input
                   ref={captureInputRef}
                   type="file"
                   accept="image/*"
-                  capture
-                  onChange={handleFileSelect}
+                  capture="environment"
+                  onChange={(e) => {
+                    console.log('Capture input changed')
+                    handleFileSelect(e)
+                  }}
                   className="hidden"
                   aria-label="Capture image with camera"
+                  id="capture-input"
                 />
               </div>
               

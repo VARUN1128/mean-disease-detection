@@ -12,8 +12,6 @@ import {
   Droplets,
   CheckCircle2,
   ArrowRight,
-  Fish,
-  Shrimp,
   Search,
   Upload,
   Camera,
@@ -534,22 +532,46 @@ export default function Home() {
             <h3 className="text-sm xs:text-base sm:text-base md:text-lg font-semibold text-slate-900 mb-2 xs:mb-2.5 sm:mb-3 md:mb-4">Disease Manuals</h3>
             <div className="grid grid-cols-2 gap-2 xs:gap-2.5 sm:gap-2.5 md:gap-3 lg:gap-4">
               <Link to="/manual?tab=fish" className="cursor-pointer">
-                <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-[#F8FAFC] transition-all duration-200 cursor-pointer group">
-                  <CardContent className="p-2.5 xs:p-3 sm:p-3.5 md:p-4 lg:p-5 text-center">
-                    <div className="w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mx-auto mb-1.5 xs:mb-2 sm:mb-2.5 md:mb-3 flex items-center justify-center rounded-md bg-emerald-100 group-hover:bg-emerald-200 active:bg-emerald-300 transition-colors">
-                      <Fish className="h-5 w-5 xs:h-5 xs:w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 text-emerald-600" strokeWidth={2} />
+                <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
+                  <CardContent className="p-0 flex flex-col h-full">
+                    {/* Image fills the entire box */}
+                    <div className="w-full aspect-square relative overflow-hidden">
+                      <img 
+                        src="/images/quick-actions/fish.png" 
+                        alt="Fish"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error(`Failed to load image: /images/quick-actions/fish.png`)
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
                     </div>
-                    <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Fish</p>
+                    {/* Label below the image */}
+                    <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
+                      <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Fish</p>
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
               <Link to="/manual?tab=shrimp" className="cursor-pointer">
-                <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-[#F8FAFC] transition-all duration-200 cursor-pointer group">
-                  <CardContent className="p-2.5 xs:p-3 sm:p-3.5 md:p-4 lg:p-5 text-center">
-                    <div className="w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mx-auto mb-1.5 xs:mb-2 sm:mb-2.5 md:mb-3 flex items-center justify-center rounded-md bg-cyan-100 group-hover:bg-cyan-200 active:bg-cyan-300 transition-colors">
-                      <Shrimp className="h-5 w-5 xs:h-5 xs:w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 lg:h-8 lg:w-8 text-cyan-600" strokeWidth={2} />
+                <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
+                  <CardContent className="p-0 flex flex-col h-full">
+                    {/* Image fills the entire box */}
+                    <div className="w-full aspect-square relative overflow-hidden">
+                      <img 
+                        src="/images/quick-actions/shrimp.png" 
+                        alt="Shrimp"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error(`Failed to load image: /images/quick-actions/shrimp.png`)
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
                     </div>
-                    <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Shrimp</p>
+                    {/* Label below the image */}
+                    <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
+                      <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Shrimp</p>
+                    </div>
                   </CardContent>
                 </Card>
               </Link>

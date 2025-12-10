@@ -592,14 +592,26 @@ export default function Home() {
                       <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
                         <CardContent className="p-0 flex flex-col h-full">
                           {/* Image fills the entire box */}
-                          <div className="w-full aspect-square relative overflow-hidden">
+                          <div className="w-full aspect-square relative overflow-hidden bg-slate-100">
                             <img 
-                              src={category.image} 
+                              src={encodeURI(category.image)} 
                               alt={category.label}
                               className="w-full h-full object-cover"
+                              onLoad={() => {
+                                console.log(`Successfully loaded: ${category.image}`)
+                              }}
                               onError={(e) => {
-                                console.error(`Failed to load image: ${category.image}`)
+                                const imgSrc = encodeURI(category.image)
+                                console.error(`Failed to load image: ${category.image}`, `Encoded: ${imgSrc}`, e)
+                                // Show a placeholder
                                 e.currentTarget.style.display = 'none'
+                                const parent = e.currentTarget.parentElement
+                                if (parent && !parent.querySelector('.image-placeholder')) {
+                                  const placeholder = document.createElement('div')
+                                  placeholder.className = 'image-placeholder w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 text-xs'
+                                  placeholder.textContent = category.label
+                                  parent.appendChild(placeholder)
+                                }
                               }}
                             />
                           </div>

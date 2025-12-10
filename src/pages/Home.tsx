@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useDetectionStore } from '../store/detectionStore'
+import CameraModal from '../components/CameraModal'
 import {
   Pill,
   Stethoscope,
@@ -49,11 +50,18 @@ const quickActions = [
   { icon: Package, label: 'Medicines', route: '/medicines', color: 'bg-cyan-600 hover:bg-cyan-700' },
 ]
 
+// Check if device is mobile
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    (typeof window !== 'undefined' && window.innerWidth < 768)
+}
+
 export default function Home() {
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const captureInputRef = useRef<HTMLInputElement>(null)
   const isNavigatingRef = useRef(false)
+  const [isCameraOpen, setIsCameraOpen] = useState(false)
   const { setPendingFile, detections } = useDetectionStore()
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,11 +141,51 @@ export default function Home() {
   }
 
   const handleCaptureClick = () => {
-    // Reset the input first to ensure it can capture again
-    if (captureInputRef.current) {
-      captureInputRef.current.value = ''
-      captureInputRef.current.click()
+    // On mobile, use file input with capture attribute
+    // On desktop, open camera modal
+    if (isMobileDevice()) {
+      if (captureInputRef.current) {
+        captureInputRef.current.value = ''
+        captureInputRef.current.click()
+      }
+    } else {
+      // Desktop: Open camera modal
+      setIsCameraOpen(true)
     }
+  }
+
+  const handleCameraCapture = (file: File) => {
+    // Process the captured file the same way as file selection
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      try {
+        const data = event.target?.result as string
+        if (!data) {
+          console.error('No data from file reader')
+          return
+        }
+        
+        setPendingFile({
+          data,
+          name: file.name || 'camera-capture.jpg',
+          type: file.type || 'image/jpeg',
+        })
+        
+        // Navigate to detect page
+        if (!isNavigatingRef.current) {
+          isNavigatingRef.current = true
+          setTimeout(() => {
+            navigate('/detect', { replace: false })
+            setTimeout(() => {
+              isNavigatingRef.current = false
+            }, 2000)
+          }, 200)
+        }
+      } catch (error) {
+        console.error('Error processing camera capture:', error)
+      }
+    }
+    reader.readAsDataURL(file)
   }
 
   const handleQuickAction = (action: string) => {
@@ -503,6 +551,13 @@ export default function Home() {
         </div>
 
       </div>
+
+      {/* Camera Modal for Desktop */}
+      <CameraModal
+        isOpen={isCameraOpen}
+        onClose={() => setIsCameraOpen(false)}
+        onCapture={handleCameraCapture}
+      />
     </div>
   )
 }

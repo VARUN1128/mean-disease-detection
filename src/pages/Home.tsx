@@ -255,7 +255,7 @@ export default function Home() {
                     type="text"
                     placeholder="Search..."
                     readOnly
-                    className="w-full sm:w-40 md:w-48 lg:w-52 pl-8 pr-2.5 py-1.5 xs:py-2 rounded-md bg-transparent text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-xs font-medium cursor-pointer"
+                    className="w-full sm:w-40 md:w-48 lg:w-52 pl-8 pr-2.5 py-1.5 xs:py-2 rounded-md bg-transparent text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-medium cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault()
                       window.location.href = '/search'
@@ -279,10 +279,10 @@ export default function Home() {
         >
           <Card className="border border-slate-200 shadow-md hover:shadow-lg active:shadow-md bg-[#F8FAFC] transition-all duration-200">
             <CardHeader className="pb-2.5 xs:pb-3 sm:pb-4 px-3 xs:px-4 sm:px-5 md:px-6 lg:px-8 pt-3 xs:pt-4 sm:pt-5 md:pt-6">
-              <CardTitle className="text-base xs:text-lg sm:text-xl md:text-2xl font-semibold text-slate-900 mb-1">
+              <CardTitle className="text-lg sm:text-xl md:text-2xl font-semibold text-slate-900 tracking-tight mb-1">
                 Detect Disease
               </CardTitle>
-              <p className="text-[11px] xs:text-xs sm:text-sm md:text-base text-slate-600">
+              <p className="text-sm md:text-base text-slate-500">
                 Upload or capture an image for AI analysis
               </p>
             </CardHeader>
@@ -302,7 +302,7 @@ export default function Home() {
                         <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-md ${step.color} flex items-center justify-center mb-1.5 shadow-sm flex-shrink-0`}>
                           <Icon className="h-4 w-4 xs:h-4 xs:w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" strokeWidth={2} />
                         </div>
-                        <p className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-center font-medium text-slate-700 leading-tight truncate w-full">
+                        <p className="text-xs sm:text-sm text-center font-medium text-slate-700 leading-tight truncate w-full">
                           {step.label}
                         </p>
                       </div>
@@ -403,8 +403,8 @@ export default function Home() {
             className="mb-4 xs:mb-5 sm:mb-6 md:mb-8"
           >
             <div className="flex items-center justify-between mb-2.5 xs:mb-3 sm:mb-4">
-              <h2 className="text-sm xs:text-base sm:text-lg md:text-xl font-semibold text-slate-900">Recent Detections</h2>
-              <Link to="/dashboard" className="text-[10px] xs:text-xs sm:text-sm md:text-base text-blue-600 hover:text-blue-700 active:text-blue-800 font-medium cursor-pointer whitespace-nowrap">
+              <h2 className="text-base sm:text-lg md:text-xl font-semibold text-slate-900 tracking-tight">Recent Detections</h2>
+              <Link to="/dashboard" className="text-xs sm:text-sm md:text-base text-blue-600 hover:text-blue-700 active:text-blue-800 font-medium cursor-pointer whitespace-nowrap">
                 View All →
               </Link>
             </div>
@@ -422,15 +422,15 @@ export default function Home() {
                       <CardContent className="p-2.5 xs:p-3 sm:p-3.5 md:p-4 lg:p-5">
                         <div className="flex items-start justify-between mb-2 gap-2">
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs xs:text-sm md:text-base font-semibold text-slate-900 truncate mb-1">
+                            <h3 className="text-sm md:text-base font-semibold text-slate-900 tracking-tight truncate mb-1">
                               {detection.diseaseName}
                             </h3>
-                            <div className="flex items-center gap-1.5 text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-slate-500">
+                            <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-500">
                               <Clock className="h-3 w-3 flex-shrink-0" strokeWidth={2} />
                               <span className="truncate">{formatDate(detection.timestamp)}</span>
                             </div>
                           </div>
-                          <div className={`px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-0.5 xs:py-1 rounded-full text-[9px] xs:text-[10px] sm:text-xs md:text-sm font-semibold whitespace-nowrap flex-shrink-0 ${
+                          <div className={`px-2 sm:px-2.5 md:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0 ${
                             detection.confidence >= 80
                               ? 'bg-green-100 text-green-700'
                               : detection.confidence >= 60
@@ -440,7 +440,7 @@ export default function Home() {
                             {detection.confidence}%
                           </div>
                         </div>
-                        <p className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm text-slate-600 line-clamp-2 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">
                           {detection.description}
                         </p>
                       </CardContent>
@@ -462,7 +462,7 @@ export default function Home() {
           transition={{ duration: 0.3, delay: 0.1 }}
           className="mb-4 xs:mb-5 sm:mb-6 md:mb-8"
         >
-          <h3 className="text-sm xs:text-base sm:text-base md:text-lg font-semibold text-slate-900 mb-2.5 xs:mb-3 sm:mb-4">Quick Actions</h3>
+          <h3 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight mb-3 sm:mb-4">Quick Actions</h3>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 xs:gap-2.5 sm:gap-2.5 md:gap-3 lg:gap-4">
             {quickActions.map((action, index) => {
               const content = (
@@ -488,9 +488,9 @@ export default function Home() {
                       </div>
                       {/* Label below the image */}
                       <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
-                        <p className="text-[10px] xs:text-xs sm:text-sm md:text-base font-medium text-slate-900 leading-tight">
-                          {action.label}
-                        </p>
+                      <p className="text-xs sm:text-sm md:text-base font-medium text-slate-900 leading-tight">
+                        {action.label}
+                      </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -529,7 +529,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.15 }}
           >
-            <h3 className="text-sm xs:text-base sm:text-base md:text-lg font-semibold text-slate-900 mb-2 xs:mb-2.5 sm:mb-3 md:mb-4">Disease Manuals</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight mb-3 sm:mb-4">Disease Manuals</h3>
             <div className="grid grid-cols-2 gap-2 xs:gap-2.5 sm:gap-2.5 md:gap-3 lg:gap-4">
               <Link to="/manual?tab=fish" className="cursor-pointer">
                 <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
@@ -548,7 +548,7 @@ export default function Home() {
                     </div>
                     {/* Label below the image */}
                     <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
-                      <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Fish</p>
+                      <p className="text-sm md:text-base font-medium text-slate-900">Fish</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -570,7 +570,7 @@ export default function Home() {
                     </div>
                     {/* Label below the image */}
                     <div className="p-2 xs:p-2.5 sm:p-3 text-center bg-[#F8FAFC]">
-                      <p className="text-xs xs:text-sm sm:text-sm md:text-base font-medium text-slate-900">Shrimp</p>
+                      <p className="text-sm md:text-base font-medium text-slate-900">Shrimp</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -584,7 +584,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            <h3 className="text-sm xs:text-base sm:text-base md:text-lg font-semibold text-slate-900 mb-2 xs:mb-2.5 sm:mb-3 md:mb-4">Medicine Categories</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight mb-3 sm:mb-4">Medicine Categories</h3>
             <div className="grid grid-cols-3 gap-1.5 xs:gap-2 sm:gap-2.5 md:gap-3 lg:gap-4">
               {medicineCategories.slice(0, 6).map((category, index) => {
                 const Icon = category.icon
@@ -600,7 +600,7 @@ export default function Home() {
                           <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md ${category.bgColor} group-hover:opacity-80 active:opacity-70 flex items-center justify-center mb-1 xs:mb-1.5 sm:mb-2 shadow-sm transition-all duration-200`}>
                             <Icon className={`h-4 w-4 xs:h-4 xs:w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 ${category.color}`} strokeWidth={2} />
                           </div>
-                          <p className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm font-medium text-slate-800 leading-tight line-clamp-2">
+                          <p className="text-xs sm:text-sm font-medium text-slate-700 leading-tight line-clamp-2">
                             {category.label}
                           </p>
                         </CardContent>

@@ -35,7 +35,7 @@ export default function Navbar() {
               <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
                 <Brain className="h-5 w-5 text-white" />
               </div>
-              <div className="text-lg xs:text-xl sm:text-xl md:text-2xl font-bold text-foreground">
+              <div className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
                 AquaVeritas
               </div>
             </Link>
@@ -50,7 +50,7 @@ export default function Navbar() {
                 className={`text-sm lg:text-base font-medium transition-colors hover:text-primary-600 px-2 py-1 ${
                   location.pathname === link.path
                     ? 'text-primary-600 border-b-2 border-primary-600'
-                    : 'text-muted-foreground'
+                    : 'text-slate-600'
                 }`}
               >
                 {link.label}
@@ -67,10 +67,10 @@ export default function Navbar() {
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block px-4 py-2.5 xs:py-3 text-sm xs:text-base font-medium rounded-md transition-colors min-h-[44px] flex items-center ${
+                className={`block px-4 py-2.5 xs:py-3 text-sm font-medium rounded-md transition-colors min-h-[44px] flex items-center ${
                   location.pathname === link.path
                     ? 'bg-primary-100 text-primary-600'
-                    : 'text-muted-foreground hover:bg-accent'
+                    : 'text-slate-600 hover:bg-accent'
                 }`}
               >
                 {link.label}

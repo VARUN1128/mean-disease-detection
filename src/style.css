@@ -36,28 +36,49 @@ h1, h2, h3, h4, h5, h6, p, span, div, button, input, label {
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-feature-settings: "rlig" 1, "calt" 1;
   font-size: 16px;
   line-height: 1.6;
+  color: #334155; /* slate-700 */
 }
 
 @media (min-width: 640px) {
   body {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 
 @media (min-width: 1024px) {
   body {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
+/* Typography defaults */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.025em;
   font-feature-settings: "kern" 1;
+  color: #0f172a; /* slate-900 */
+}
+
+/* Consistent text color utilities */
+.text-body {
+  color: #334155; /* slate-700 */
+}
+
+.text-subtitle {
+  color: #64748b; /* slate-500 */
+}
+
+.text-caption {
+  color: #94a3b8; /* slate-400 */
+}
+
+.text-heading {
+  font-weight: 600;
+  color: #0f172a; /* slate-900 */
 }
 
 /* Professional Shadows */

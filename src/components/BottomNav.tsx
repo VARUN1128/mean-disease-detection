@@ -36,7 +36,7 @@ export default function BottomNav() {
               }`}
             >
               <Icon className={`h-6 w-6 mb-1 flex-shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-600'}`} />
-              <span className={`text-[10px] sm:text-xs font-medium truncate w-full text-center ${isActive ? 'text-blue-600' : 'text-gray-600'}`}>
+              <span className={`text-xs font-medium truncate w-full text-center ${isActive ? 'text-blue-600' : 'text-slate-600'}`}>
                 {item.label}
               </span>
             </Link>

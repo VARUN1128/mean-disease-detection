@@ -17,10 +17,7 @@ import {
   Search,
   Upload,
   Camera,
-  Zap,
-  Award,
   Clock,
-  Activity,
   BookOpen,
   Package,
 } from 'lucide-react'
@@ -37,11 +34,6 @@ const medicineCategories = [
   { icon: Leaf, label: 'Feed Additives', color: 'text-green-600', bgColor: 'bg-green-50' },
 ]
 
-const quickFeatures = [
-  { icon: Zap, label: 'Instant', value: 'AI Analysis' },
-  { icon: Award, label: '95%+', value: 'Accuracy' },
-  { icon: Activity, label: '100+', value: 'Diseases' },
-]
 
 const quickActions = [
   { icon: Camera, label: 'Capture', action: 'capture', color: 'bg-blue-600 hover:bg-blue-700' },
@@ -258,25 +250,7 @@ export default function Home() {
         <div className="mb-3 xs:mb-4 sm:mb-5 md:mb-6">
           {/* Mobile: Stacked, Desktop: Same Line */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 xs:gap-3 sm:gap-4">
-            {/* Feature Icons - Centered, Single Line */}
-            <div className="flex items-center justify-center gap-2 xs:gap-3 sm:gap-4 md:gap-5 lg:gap-6 overflow-x-auto flex-shrink-0 w-full sm:w-auto">
-              {quickFeatures.map((feature, index) => {
-                const Icon = feature.icon
-                return (
-                  <div key={index} className="flex items-center gap-1.5 xs:gap-2 flex-shrink-0">
-                    <div className="p-1.5 xs:p-2 sm:p-2.5 rounded-md bg-[#F8FAFC] border border-slate-200 shadow-sm flex-shrink-0">
-                      <Icon className="h-3.5 w-3.5 xs:h-4 xs:w-4 sm:h-4 sm:w-4 md:h-5 md:w-5 text-blue-600" strokeWidth={2} />
-                    </div>
-                    <div className="min-w-0 whitespace-nowrap">
-                      <div className="font-semibold text-slate-900 leading-tight text-xs xs:text-xs sm:text-sm md:text-base">{feature.label}</div>
-                      <div className="text-[10px] xs:text-[10px] sm:text-xs md:text-sm text-slate-500 leading-tight">{feature.value}</div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-            
-            {/* Search Bar - Matches Feature Width on Mobile */}
+            {/* Search Bar */}
             <Link to="/search" className="cursor-pointer flex-shrink-0 w-full sm:w-auto self-center">
               <div className="relative w-full sm:w-auto">
                 <div className="bg-[#F8FAFC] rounded-md border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 hover:border-blue-300 w-full sm:w-auto">

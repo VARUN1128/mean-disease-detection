@@ -12,6 +12,25 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/__pycache__/
+backend/**/__pycache__/
+
+# Model files (if too large for git)
+# Uncomment if model file is >100MB
+# backend/models/*.h5
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

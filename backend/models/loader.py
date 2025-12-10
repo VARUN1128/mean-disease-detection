@@ -13,7 +13,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Model configuration
-MODEL_PATH = os.getenv("MODEL_PATH", "models/fish_disease_model.h5")
+# Resolve model path relative to backend directory
+_model_path_env = os.getenv("MODEL_PATH", "models/fish_disease_mobilenetv2.h5")
+if os.path.isabs(_model_path_env):
+    MODEL_PATH = _model_path_env
+else:
+    # Resolve relative to backend directory (parent of models directory)
+    backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    MODEL_PATH = os.path.join(backend_dir, _model_path_env)
 IMAGE_SIZE = (224, 224)  # MobileNetV2 input size
 
 # Disease class names (7 classes)

@@ -2,7 +2,13 @@
  * API utility for backend communication
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000'
+// Remove trailing slash from API base URL to avoid double slashes
+const getApiBaseUrl = () => {
+  const url = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000'
+  return url.replace(/\/+$/, '') // Remove trailing slashes
+}
+
+const API_BASE_URL = getApiBaseUrl()
 
 export interface AuthResponse {
   access_token: string

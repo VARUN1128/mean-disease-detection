@@ -148,41 +148,53 @@ export default function Home() {
     }
   }
 
-  const handleUploadClick = (e?: React.MouseEvent) => {
+  const handleUploadClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault()
     e?.stopPropagation()
-    console.log('Upload clicked, triggering upload input')
-    fileInputRef.current?.click()
+    console.log('📤 Upload button clicked, triggering upload input')
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+      console.log('📤 Upload input clicked')
+    } else {
+      console.error('❌ Upload input ref is null')
+    }
   }
 
-  const handleCaptureClick = (e?: React.MouseEvent) => {
-    // Prevent any default behavior
+  const handleCaptureClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent any default behavior and stop propagation
     e?.preventDefault()
     e?.stopPropagation()
     
     // On mobile, use file input with capture attribute
     // On desktop, open camera modal
     const isMobile = isMobileDevice()
-    console.log('Capture clicked, isMobile:', isMobile, 'UserAgent:', navigator.userAgent)
+    console.log('🔵 Capture button clicked!', {
+      isMobile,
+      userAgent: navigator.userAgent,
+      captureInputExists: !!captureInputRef.current,
+      uploadInputExists: !!fileInputRef.current
+    })
     
     if (isMobile) {
       if (captureInputRef.current) {
-        console.log('Triggering capture input')
+        console.log('📷 Triggering capture input (mobile)')
         // Reset and trigger capture input
         captureInputRef.current.value = ''
         // Small delay to ensure reset is processed
         setTimeout(() => {
           if (captureInputRef.current) {
+            console.log('📷 Clicking capture input element')
             captureInputRef.current.click()
-            console.log('Capture input clicked')
+          } else {
+            console.error('❌ Capture input ref became null')
           }
         }, 100)
       } else {
-        console.error('Capture input ref is null')
+        console.error('❌ Capture input ref is null')
       }
     } else {
       // Desktop: Open camera modal
-      console.log('Opening camera modal (desktop)')
+      console.log('🖥️ Opening camera modal (desktop)')
       setIsCameraOpen(true)
     }
   }
@@ -337,32 +349,36 @@ export default function Home() {
                 <Button
                   size="lg"
                   onClick={handleUploadClick}
-                  className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white border-0 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 text-sm font-medium rounded-md touch-manipulation"
+                  type="button"
+                  className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white border-0 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 text-sm font-medium rounded-md touch-manipulation relative z-10"
+                  style={{ pointerEvents: 'auto', zIndex: 10 }}
                 >
                   <Upload className="h-4 w-4 mr-2" strokeWidth={2} />
                   <span>Upload Image</span>
                 </Button>
-                <Button
-                  size="lg"
+                <button
                   onClick={handleCaptureClick}
-                  variant="outline"
-                  className="w-full border border-slate-300 text-slate-700 bg-[#F8FAFC] hover:bg-white active:bg-slate-50 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 text-sm font-medium rounded-md cursor-pointer touch-manipulation"
+                  type="button"
+                  className="w-full border border-slate-300 text-slate-700 bg-[#F8FAFC] hover:bg-white active:bg-slate-50 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 text-sm font-medium rounded-md cursor-pointer touch-manipulation relative z-10 inline-flex items-center justify-center"
+                  style={{ pointerEvents: 'auto', zIndex: 10 }}
+                  aria-label="Capture image with camera"
                 >
                   <Camera className="h-4 w-4 mr-2" strokeWidth={2} />
                   <span>Capture</span>
-                </Button>
+                </button>
                 {/* Upload input - opens gallery (no capture attribute) */}
                 <input
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
-                    console.log('Upload input changed')
+                    console.log('📤 Upload input changed - source: upload-input')
                     handleFileSelect(e)
                   }}
                   className="hidden"
                   aria-label="Upload image from gallery"
                   id="upload-input"
+                  data-input-type="upload"
                 />
                 {/* Capture input - opens camera (with capture attribute) */}
                 <input
@@ -371,12 +387,13 @@ export default function Home() {
                   accept="image/*"
                   capture="environment"
                   onChange={(e) => {
-                    console.log('Capture input changed')
+                    console.log('📷 Capture input changed - source: capture-input')
                     handleFileSelect(e)
                   }}
                   className="hidden"
                   aria-label="Capture image with camera"
                   id="capture-input"
+                  data-input-type="capture"
                 />
               </div>
               

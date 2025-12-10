@@ -8,6 +8,8 @@ import BottomNav from './components/BottomNav'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { SkeletonCard } from './components/Skeleton'
 import { AlertCircle } from 'lucide-react'
+// Import Detect immediately (not lazy) since it's critical for mobile after image capture
+import Detect from './pages/Detect'
 
 // Retry function for failed imports (especially useful for mobile)
 const retryImport = async (
@@ -57,7 +59,6 @@ const lazyLoad = (importFn: () => Promise<{ default: React.ComponentType<any> }>
 }
 
 const Home = lazyLoad(() => import('./pages/Home'))
-const Detect = lazyLoad(() => import('./pages/Detect'))
 const Manual = lazyLoad(() => import('./pages/Manual'))
 const Medicines = lazyLoad(() => import('./pages/Medicines'))
 const Dashboard = lazyLoad(() => import('./pages/Dashboard'))

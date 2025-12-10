@@ -52,6 +52,7 @@ const quickActions = [
 export default function Home() {
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const captureInputRef = useRef<HTMLInputElement>(null)
   const { setPendingFile, detections } = useDetectionStore()
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,9 +78,15 @@ export default function Home() {
     fileInputRef.current?.click()
   }
 
+  const handleCaptureClick = () => {
+    captureInputRef.current?.click()
+  }
+
   const handleQuickAction = (action: string) => {
-    if (action === 'upload' || action === 'capture') {
+    if (action === 'upload') {
       handleUploadClick()
+    } else if (action === 'capture') {
+      handleCaptureClick()
     }
   }
 
@@ -198,21 +205,31 @@ export default function Home() {
                 </Button>
                 <Button
                   size="lg"
-                  onClick={handleUploadClick}
+                  onClick={handleCaptureClick}
                   variant="outline"
                   className="w-full border border-slate-300 text-slate-700 bg-[#F8FAFC] hover:bg-white active:bg-slate-50 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 text-sm font-medium rounded-md cursor-pointer touch-manipulation"
                 >
                   <Camera className="h-4 w-4 mr-2" strokeWidth={2} />
                   <span>Capture</span>
                 </Button>
+                {/* Upload input - opens gallery (no capture attribute) */}
                 <input
                   ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                  aria-label="Upload image from gallery"
+                />
+                {/* Capture input - opens camera (with capture attribute) */}
+                <input
+                  ref={captureInputRef}
                   type="file"
                   accept="image/*"
                   capture="environment"
                   onChange={handleFileSelect}
                   className="hidden"
-                  aria-label="Upload or capture image"
+                  aria-label="Capture image with camera"
                 />
               </div>
               
@@ -228,7 +245,7 @@ export default function Home() {
                 </Button>
                 <Button
                   size="lg"
-                  onClick={handleUploadClick}
+                  onClick={handleCaptureClick}
                   variant="outline"
                   className="flex-1 border border-slate-300 text-slate-700 bg-[#F8FAFC] hover:bg-white active:bg-slate-50 shadow-sm hover:shadow-md active:shadow-sm transition-all duration-200 h-11 md:h-12 lg:h-14 text-sm md:text-base font-medium rounded-md md:rounded-lg cursor-pointer"
                 >

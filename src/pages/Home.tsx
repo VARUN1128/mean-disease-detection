@@ -5,11 +5,6 @@ import { useDetectionStore } from '../store/detectionStore'
 import CameraModal from '../components/CameraModal'
 import {
   Pill,
-  Stethoscope,
-  FlaskConical,
-  Shield,
-  Leaf,
-  Droplets,
   CheckCircle2,
   ArrowRight,
   Search,
@@ -22,12 +17,12 @@ import Button from '../components/ui/Button'
 import { format } from 'date-fns'
 
 const medicineCategories = [
-  { icon: Pill, label: 'Medicine', color: 'text-blue-600', bgColor: 'bg-blue-50' },
-  { icon: Stethoscope, label: 'Drugs', color: 'text-teal-600', bgColor: 'bg-teal-50' },
-  { icon: FlaskConical, label: 'Probiotics', color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
-  { icon: Droplets, label: 'Disinfectant', color: 'text-cyan-600', bgColor: 'bg-cyan-50' },
-  { icon: Shield, label: 'Immunostimulants', color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
-  { icon: Leaf, label: 'Feed Additives', color: 'text-green-600', bgColor: 'bg-green-50' },
+  { image: '/images/quick-actions/medicine.png', label: 'Medicine' },
+  { image: '/images/quick-actions/drug.png', label: 'Drugs' },
+  { image: '/images/quick-actions/probiotics.png', label: 'Probiotics' },
+  { image: '/images/disinfectant.png', label: 'Disinfectant' },
+  { image: '/images/quick-actions/immuno stimulants.png', label: 'Immunostimulants' },
+  { image: '/images/quick-actions/feed additives.png', label: 'Feed Additives' },
 ]
 
 
@@ -585,9 +580,8 @@ export default function Home() {
             transition={{ duration: 0.3, delay: 0.2 }}
           >
             <h3 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight mb-3 sm:mb-4">Medicine Categories</h3>
-            <div className="grid grid-cols-3 gap-1.5 xs:gap-2 sm:gap-2.5 md:gap-3 lg:gap-4">
+            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 md:gap-3 lg:gap-4">
               {medicineCategories.slice(0, 6).map((category, index) => {
-                const Icon = category.icon
                 return (
                   <Link key={index} to="/medicines" className="cursor-pointer">
                     <motion.div
@@ -595,14 +589,26 @@ export default function Home() {
                       whileTap={{ y: 0, scale: 0.98 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-[#F8FAFC] transition-all duration-200 cursor-pointer group">
-                        <CardContent className="p-2 xs:p-2.5 sm:p-3 md:p-3.5 lg:p-4 flex flex-col items-center text-center">
-                          <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-md ${category.bgColor} group-hover:opacity-80 active:opacity-70 flex items-center justify-center mb-1 xs:mb-1.5 sm:mb-2 shadow-sm transition-all duration-200`}>
-                            <Icon className={`h-4 w-4 xs:h-4 xs:w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-7 lg:w-7 ${category.color}`} strokeWidth={2} />
+                      <Card className="h-full border border-slate-200 shadow-sm hover:shadow-md active:shadow-sm bg-white transition-all duration-200 cursor-pointer overflow-hidden">
+                        <CardContent className="p-0 flex flex-col h-full">
+                          {/* Image fills the entire box */}
+                          <div className="w-full aspect-square relative overflow-hidden">
+                            <img 
+                              src={category.image} 
+                              alt={category.label}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                console.error(`Failed to load image: ${category.image}`)
+                                e.currentTarget.style.display = 'none'
+                              }}
+                            />
                           </div>
-                          <p className="text-xs sm:text-sm font-medium text-slate-700 leading-tight line-clamp-2">
-                            {category.label}
-                          </p>
+                          {/* Label below the image */}
+                          <div className="p-2 sm:p-2.5 text-center bg-[#F8FAFC]">
+                            <p className="text-xs sm:text-sm font-medium text-slate-700 leading-tight line-clamp-2">
+                              {category.label}
+                            </p>
+                          </div>
                         </CardContent>
                       </Card>
                     </motion.div>

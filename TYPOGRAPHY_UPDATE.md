@@ -1,7 +1,7 @@
-# Typography System Update - AquaVeritas
+# Typography System Update - FinX Aqua
 
 ## Overview
-Updated the entire AquaVeritas UI with a modern, professional typography system using Inter font family.
+Updated the entire FinX Aqua UI with a modern, professional typography system using Inter font family.
 
 ## Changes Made
 

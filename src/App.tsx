@@ -177,9 +177,9 @@ function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen relative bg-white">
+        <div className="flex flex-col min-h-screen min-h-[100dvh] relative bg-white overflow-x-clip">
           <Navbar />
-          <main className="flex-1 pb-16 md:pb-[400px]">
+          <main className="flex-1 w-full min-h-0 pb-20 md:pb-[400px]" style={{ paddingBottom: 'max(5rem, env(safe-area-inset-bottom))' }}>
             <AppRoutes />
           </main>
           <Footer className="fixed bottom-0 left-0 right-0 z-40 hidden md:block bg-white border-t shadow-elegant" style={{ position: 'fixed', transform: 'translateZ(0)' }} />

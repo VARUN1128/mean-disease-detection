@@ -1,5 +1,5 @@
 """
-FastAPI application for AquaVeritas fish disease detection backend.
+FastAPI application for FinX Aqua fish disease detection backend.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,7 +21,7 @@ load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="AquaVeritas API",
+    title="FinX Aqua API",
     description="Backend API for fish disease detection using AI",
     version="1.0.0"
 )
@@ -53,7 +53,7 @@ async def startup_event():
     Load TensorFlow model on application startup.
     This ensures the model is ready before handling requests.
     """
-    logger.info("Starting AquaVeritas API...")
+    logger.info("Starting FinX Aqua API...")
     try:
         load_model()
         logger.info("✓ Model loaded successfully")
@@ -67,7 +67,7 @@ async def startup_event():
 async def root():
     """Root endpoint with API information."""
     return {
-        "message": "AquaVeritas Fish Disease Detection API",
+        "message": "FinX Aqua Fish Disease Detection API",
         "version": "1.0.0",
         "endpoints": {
             "auth": "/auth/register, /auth/login",

@@ -167,8 +167,9 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--color-border);
 }
 
+/* Use clip so fixed positioning stays relative to viewport (hidden can break fixed nav) */
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   height: 100%;
   -webkit-text-size-adjust: 100%;
@@ -179,7 +180,7 @@ html {
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   height: 100%;
   min-height: 100vh;
@@ -251,7 +252,7 @@ button, a, input, select, textarea {
   }
 }
 
-/* Ensure fixed bottom nav doesn't scroll */
+/* Ensure fixed bottom nav stays at viewport bottom on all pages (visible without scrolling + fixed when scrolling) */
 nav[class*="fixed bottom-0"] {
   position: fixed !important;
   bottom: 0 !important;

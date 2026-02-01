@@ -1,8 +1,8 @@
-# 🌊 AquaVeritas
+# 🌊 FinX Aqua
 
 **World's 1st Real-Time Fish Disease Detection Software**
 
-AquaVeritas is an AI-powered web application designed to help users detect fish and shrimp diseases in real-time. Upload a photo, get an instant diagnosis, and receive medicine & treatment suggestions.
+FinX Aqua is an AI-powered web application designed to help users detect fish and shrimp diseases in real-time. Upload a photo, get an instant diagnosis, and receive medicine & treatment suggestions.
 
 ## ✨ Features
 

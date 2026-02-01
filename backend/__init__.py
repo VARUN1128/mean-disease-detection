@@ -1,2 +1,2 @@
-# AquaVeritas Backend Package
+# FinX Aqua Backend Package
 

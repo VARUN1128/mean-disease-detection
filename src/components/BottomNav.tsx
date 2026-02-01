@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
 import { Home, Search, Store, User } from 'lucide-react'
 
@@ -11,15 +12,18 @@ export default function BottomNav() {
     { path: '/dashboard', label: 'You', icon: User },
   ]
 
-  return (
-    <nav 
-      className="fixed bottom-0 left-0 right-0 z-[9999] bg-white backdrop-blur-lg border-t border-gray-300 md:hidden shadow-elegant-lg" 
-      style={{ 
-        position: 'fixed', 
-        transform: 'translateZ(0)',
-        paddingBottom: 'env(safe-area-inset-bottom)',
-        bottom: 0
+  const navContent = (
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-[9999] bg-white backdrop-blur-lg border-t border-gray-300 md:hidden shadow-elegant-lg"
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))',
       }}
+      aria-label="Bottom navigation"
     >
       <div className="flex items-center justify-around h-16 px-2 max-w-full">
         {navItems.map((item) => {
@@ -45,5 +49,11 @@ export default function BottomNav() {
       </div>
     </nav>
   )
+
+  // Portal into body so no parent transform/overflow can break position:fixed (always visible at viewport bottom)
+  if (typeof document !== 'undefined') {
+    return createPortal(navContent, document.body)
+  }
+  return navContent
 }
 

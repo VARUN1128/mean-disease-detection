@@ -1,4 +1,4 @@
-# 🚀 Deployment Guide for AquaVeritas
+# 🚀 Deployment Guide for FinX Aqua
 
 This guide covers deploying both the frontend (Vercel) and backend (separate service).
 

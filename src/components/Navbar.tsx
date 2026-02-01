@@ -36,7 +36,7 @@ export default function Navbar() {
                 <Brain className="h-5 w-5 text-white" />
               </div>
               <div className="text-lg sm:text-xl font-semibold text-foreground tracking-tight">
-                AquaVeritas
+                FinX Aqua
               </div>
             </Link>
           </div>

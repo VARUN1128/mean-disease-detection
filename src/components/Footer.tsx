@@ -6,7 +6,7 @@ export default function Footer({ className, style }: { className?: string; style
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl sm:text-2xl font-semibold mb-4 tracking-tight text-slate-900">🌊 AquaVeritas</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold mb-4 tracking-tight text-slate-900">🌊 FinX Aqua</h3>
             <p className="text-base text-slate-500">
               World's 1st Real-Time Fish Disease Detection Software powered by AI.
             </p>
@@ -34,13 +34,13 @@ export default function Footer({ className, style }: { className?: string; style
           <div>
             <h4 className="text-base font-semibold mb-4 tracking-tight text-slate-900">About</h4>
             <p className="text-base text-slate-500">
-              AquaVeritas helps aquaculture professionals and hobbyists detect and treat fish
+              FinX Aqua helps aquaculture professionals and hobbyists detect and treat fish
               diseases with AI-powered technology.
             </p>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-slate-400">
-          <p>&copy; {new Date().getFullYear()} AquaVeritas. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} FinX Aqua. All rights reserved.</p>
         </div>
       </div>
     </footer>

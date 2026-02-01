@@ -1,4 +1,4 @@
-# AquaVeritas Backend API
+# FinX Aqua Backend API
 
 FastAPI backend for fish disease detection using TensorFlow, Google Gemini AI, and Supabase.
 
@@ -292,5 +292,5 @@ Use the interactive API docs at `http://localhost:8000/docs` or `http://localhos
 
 ## License
 
-Part of the AquaVeritas project.
+Part of the FinX Aqua project.
 

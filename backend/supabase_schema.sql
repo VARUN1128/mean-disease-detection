@@ -1,4 +1,4 @@
--- Supabase Database Schema for AquaVeritas
+-- Supabase Database Schema for FinX Aqua
 -- Run this SQL in your Supabase SQL Editor to create all required tables
 
 -- Enable UUID extension

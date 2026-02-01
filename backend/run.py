@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Quick start script for AquaVeritas API.
+Quick start script for FinX Aqua API.
 Run this script to start the FastAPI server.
 """
 import uvicorn

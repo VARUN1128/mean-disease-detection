@@ -4,7 +4,7 @@ Loads the MobileNetV2 model on startup and provides prediction functionality.
 """
 import os
 import numpy as np
-import keras
+from tensorflow import keras
 from PIL import Image
 import io
 from typing import Tuple, Optional, Any

@@ -2,7 +2,7 @@ fastapi==0.115.0
 uvicorn[standard]==0.32.0
 python-multipart==0.0.12
 supabase==2.10.0
-tensorflow==2.16.1
+tensorflow==2.20.0
 pillow==10.4.0
 python-dotenv==1.0.1
 python-jose[cryptography]==3.3.0
